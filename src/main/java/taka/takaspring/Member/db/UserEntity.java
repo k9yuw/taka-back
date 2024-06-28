@@ -2,12 +2,8 @@ package taka.takaspring.Member.db;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import taka.takaspring.Member.db.enums.RoleType;
 import taka.takaspring.common.BaseEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder
