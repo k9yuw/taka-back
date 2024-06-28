@@ -1,10 +1,7 @@
 package taka.takaspring.Member.db;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import taka.takaspring.Member.db.enums.RoleType;
 import taka.takaspring.common.BaseEntity;
@@ -13,10 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@SuperBuilder
-@EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
 public class UserEntity extends BaseEntity {
 
@@ -34,9 +29,21 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String phoneNumber;
+
     private String profileImageUrl;
 
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    @Builder
+    public UserEntity(String userId, String password, String name, String email, String phoneNumber, String profileImageUrl, RoleType role){
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.profileImageUrl = profileImageUrl;
+        this.role = role;
+    }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import taka.takaspring.Member.db.UserEntity;
+import taka.takaspring.Member.dto.SignupRequest;
 import taka.takaspring.Member.service.AuthService;
 import taka.takaspring.common.Api;
 
@@ -30,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Api<String>> signup(@RequestBody @Valid UserDto.SignupRequest request,
+    public ResponseEntity<Api<String>> signup(@RequestBody @Valid SignupRequest request,
                                               BindingResult bindingResult) {
         Api<String> response;
 
@@ -52,7 +53,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } else {
 
-            UserEntity signUpEntity = authService.signUp(request.toEntity());
+            UserEntity signUpEntity = authService.toEntity(request);
 
             response = Api.<String>builder()
                     .status(Api.SUCCESS_STATUS)

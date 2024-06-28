@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
+import taka.takaspring.Member.dto.SignupRequest;
+import taka.takaspring.Member.dto.SignupResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -26,9 +28,31 @@ public class AuthService {
                 .password(encPassword)
                 .name(user.getName())
                 .phoneNumber(user.getPhoneNumber())
-                .email(parent.getEmail())
+                .email(user.getEmail())
                 .build();
 
         return userRepository.save(joinUser);
+    }
+
+
+    private UserEntity toEntity(SignupRequest request) {
+
+        UserEntity user = UserEntity.builder()
+                .userId(request.getUserId())
+                .password(request.getPassword())
+                .name(request.getName())
+                .phoneNumber(request.getPhoneNumber())
+                .email(request.getEmail())
+                .build();
+
+        return user;
+    }
+
+    private SignupResponse toDto(UserEntity user) {
+        SignupResponse response = new SignupResponse();
+        response.setUserId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        return response;
     }
 }
