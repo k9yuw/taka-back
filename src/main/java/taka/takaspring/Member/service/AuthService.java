@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
-import taka.takaspring.Member.dto.SignupRequest;
-import taka.takaspring.Member.dto.SignupResponse;
+import taka.takaspring.Member.service.dto.SignupRequest;
+import taka.takaspring.Member.service.dto.SignupResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -18,17 +18,17 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public UserEntity signUp(UserEntity user) {
+    public UserEntity signUp(SignupRequest request) {
 
-        String rawPassword = user.getPassword();
+        String rawPassword = request.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
         UserEntity joinUser = UserEntity.builder()
-                .userId(user.getUserId())
+                .userId(request.getUserId())
                 .password(encPassword)
-                .name(user.getName())
-                .phoneNumber(user.getPhoneNumber())
-                .email(user.getEmail())
+                .name(request.getName())
+                .phoneNumber(request.getPhoneNumber())
+                .email(request.getEmail())
                 .build();
 
         return userRepository.save(joinUser);
@@ -50,8 +50,8 @@ public class AuthService {
 
     private SignupResponse toDto(UserEntity user) {
         SignupResponse response = new SignupResponse();
-        response.setUserId(user.getId());
-        response.setUsername(user.getUsername());
+        response.setUserId(user.getUserId());
+        response.setName(user.getName());
         response.setEmail(user.getEmail());
         return response;
     }

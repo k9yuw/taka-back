@@ -1,4 +1,4 @@
-package taka.takaspring.Member.dto;
+package taka.takaspring.Member.service.dto;
 
 import lombok.Data;
 
@@ -10,5 +10,4 @@ public class SignupRequest {
     private String name;
     private String email;
     private String phoneNumber;
-
 }
