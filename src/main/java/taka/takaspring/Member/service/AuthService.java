@@ -49,6 +49,13 @@ public class AuthService {
 
     @Transactional
     public UserEntity signUp(SignupDto.SignupRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+
+        if (!verifyCode(request.getEmail(), request.getVerificationCode())) {
+            throw new IllegalArgumentException("회원가입 인증코드가 틀렸습니다.");
+        }
         String rawPassword = request.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
