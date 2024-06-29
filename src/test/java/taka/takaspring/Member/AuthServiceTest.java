@@ -48,9 +48,18 @@ class AuthServiceTest {
                 .phoneNumber("01012345678")
                 .build();
 
-        when(authService.verifyCode("test@korea.ac.kr", "123456")).thenReturn(true);
+        // 인증 코드 검증을 통과하도록 설정
+        authService.sendVerificationCode(request.getEmail());
+        authService.verifyCode(request.getEmail(), "123456");
+
         when(bCryptPasswordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(any(UserEntity.class))).thenReturn(new UserEntity());
+        when(userRepository.save(any(UserEntity.class))).thenReturn(UserEntity.builder()
+                .email("test@korea.ac.kr")
+                .password("encodedPassword")
+                .name("김초키")
+                .phoneNumber("01012345678")
+                .role(USER)
+                .build());
 
         UserEntity savedUser = authService.signUp(request);
 
@@ -63,47 +72,60 @@ class AuthServiceTest {
     void signUp_ShouldThrowException_WhenVerificationCodeIsInvalid() {
         SignupDto.SignupRequest request = SignupDto.SignupRequest.builder()
                 .email("test@korea.ac.kr")
-                .verificationCode("wrongCode")
+                .verificationCode("654321")
                 .password("Password1!")
                 .name("김초키")
                 .phoneNumber("01012345678")
                 .build();
 
-        when(authService.verifyCode("test@korea.ac.kr", "wrongCode")).thenReturn(false);
+        // 인증 코드 검증을 실패하도록 설정
+        authService.sendVerificationCode(request.getEmail());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             authService.signUp(request);
         });
 
-        assertEquals("회원가입 인증 코드가 틀렸습니다.", exception.getMessage());
+        assertEquals("회원가입 인증코드가 틀렸습니다.", exception.getMessage());
     }
 
     // 3. 이메일 형식이 맞지 않는 경우
     @Test
-    void signUp_ShouldFail_WhenEmailFormatIsInvalid() {
+    void signUp_ShouldThrowException_WhenEmailIsInvalid() {
         SignupDto.SignupRequest request = SignupDto.SignupRequest.builder()
-                .email("invalidEmail")
+                .email("test@notkorea.ac.kr")
                 .verificationCode("123456")
                 .password("Password1!")
                 .name("김초키")
                 .phoneNumber("01012345678")
                 .build();
 
-        assertFalse(request.getEmail().matches("^[A-Za-z0-9._%+-]+@korea\\.ac\\.kr$"));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            authService.signUp(request);
+        });
+
+        assertEquals("올바르지 않은 이메일 형식입니다.", exception.getMessage());
     }
 
-    // 4. 이메일도 정상적이고 인증번호도 인증했지만 비밀번호 형식이 안맞는경우
+    // 4. 이메일도 정상적이고 인증번호도 인증했지만 비밀번호 형식이 안맞는 경우
     @Test
-    void signUp_ShouldFail_WhenPasswordFormatIsInvalid() {
+    void signUp_ShouldThrowException_WhenPasswordIsInvalid() {
         SignupDto.SignupRequest request = SignupDto.SignupRequest.builder()
                 .email("test@korea.ac.kr")
                 .verificationCode("123456")
-                .password("invalidPassword") // 비밀번호 형식이 맞지 않음
+                .password("invalid")
                 .name("김초키")
                 .phoneNumber("01012345678")
                 .build();
 
-        assertFalse(request.getPassword().matches("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}"));
+        // 인증 코드 검증을 통과하도록 설정
+        authService.sendVerificationCode(request.getEmail());
+        authService.verifyCode(request.getEmail(), "123456");
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            authService.signUp(request);
+        });
+
+        assertEquals("비밀번호는 영문 대, 소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.", exception.getMessage());
     }
 
     // 5. 중복된 이메일이 존재하는 경우
