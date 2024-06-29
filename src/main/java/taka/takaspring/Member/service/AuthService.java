@@ -9,6 +9,8 @@ import taka.takaspring.Member.db.UserRepository;
 import taka.takaspring.Member.service.dto.SignupRequest;
 import taka.takaspring.Member.service.dto.SignupResponse;
 
+import static taka.takaspring.Member.db.enums.RoleType.USER;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -29,6 +31,7 @@ public class AuthService {
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .email(request.getEmail())
+                .role(USER)
                 .build();
 
         return userRepository.save(joinUser);
