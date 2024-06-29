@@ -31,7 +31,7 @@ public class AuthController {
         authService.sendVerificationCode(email);
         return ResponseEntity.ok(Api.<String>builder()
                 .status(Api.SUCCESS_STATUS)
-                .message("회원가입 인증 코드가 이메일로 전송되었습니다. ")
+                .message("회원가입 인증 코드가 이메일로 전송되었습니다.")
                 .data("Email: " + email)
                 .build());
     }
@@ -42,13 +42,13 @@ public class AuthController {
         if (isValid) {
             return ResponseEntity.ok(Api.<String>builder()
                     .status(Api.SUCCESS_STATUS)
-                    .message("회원가입 이메일 인증이 성공적으로 진행되었습니다. ")
+                    .message("회원가입 이메일 인증이 성공적으로 진행되었습니다.")
                     .data("Email: " + email)
                     .build());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Api.<String>builder()
                     .status(Api.FAIL_STATUS)
-                    .message("회원가입 인증 코드가 틀렸습니다. ")
+                    .message("회원가입 인증 코드가 틀렸습니다.")
                     .data("Email: " + email)
                     .build());
         }
