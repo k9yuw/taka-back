@@ -54,6 +54,8 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } else {
 
+            authService.signUp(request);
+
             response = Api.<String>builder()
                     .status(Api.SUCCESS_STATUS)
                     .message("회원가입 성공")

@@ -34,20 +34,6 @@ public class AuthService {
         return userRepository.save(joinUser);
     }
 
-
-    private UserEntity toEntity(SignupRequest request) {
-
-        UserEntity user = UserEntity.builder()
-                .userId(request.getUserId())
-                .password(request.getPassword())
-                .name(request.getName())
-                .phoneNumber(request.getPhoneNumber())
-                .email(request.getEmail())
-                .build();
-
-        return user;
-    }
-
     private SignupResponse toDto(UserEntity user) {
         SignupResponse response = new SignupResponse();
         response.setUserId(user.getUserId());
