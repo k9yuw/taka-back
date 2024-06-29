@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Member.service.dto.SignupRequest;
+import taka.takaspring.Member.service.dto.SignupDto;
 import taka.takaspring.Member.service.AuthService;
-import taka.takaspring.Member.service.dto.SignupResponse;
 import taka.takaspring.common.Api;
 
 import java.util.HashMap;
@@ -32,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Api<String>> signup(@RequestBody @Valid SignupRequest request,
+    public ResponseEntity<Api<String>> signup(@RequestBody @Valid SignupDto.SignupRequest request,
                                               BindingResult bindingResult) {
         Api<String> response;
 

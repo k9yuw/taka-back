@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
-import taka.takaspring.Member.service.dto.SignupRequest;
-import taka.takaspring.Member.service.dto.SignupResponse;
+import taka.takaspring.Member.service.dto.SignupDto;
 
 import static taka.takaspring.Member.db.enums.RoleType.USER;
 
@@ -20,7 +19,7 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public UserEntity signUp(SignupRequest request) {
+    public UserEntity signUp(SignupDto.SignupRequest request) {
 
         String rawPassword = request.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
@@ -37,11 +36,4 @@ public class AuthService {
         return userRepository.save(joinUser);
     }
 
-    private SignupResponse toDto(UserEntity user) {
-        SignupResponse response = new SignupResponse();
-        response.setUserId(user.getUserId());
-        response.setName(user.getName());
-        response.setEmail(user.getEmail());
-        return response;
-    }
 }
