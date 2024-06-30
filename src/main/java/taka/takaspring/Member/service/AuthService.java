@@ -56,6 +56,7 @@ public class AuthService {
         if (!verifyCode(request.getEmail(), request.getVerificationCode())) {
             throw new IllegalArgumentException("회원가입 인증코드가 틀렸습니다.");
         }
+
         String rawPassword = request.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
