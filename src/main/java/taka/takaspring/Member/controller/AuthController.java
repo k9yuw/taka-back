@@ -37,8 +37,8 @@ public class AuthController {
     }
 
     @PostMapping("/verify-code")
-    public ResponseEntity<Api<String>> verifyCode(@RequestParam String email, @RequestParam String code) {
-        boolean isValid = authService.verifyCode(email, code);
+    public ResponseEntity<Api<String>> verifyCode(@RequestParam String email, @RequestParam String verificationCode) {
+        boolean isValid = authService.verifyCode(email, verificationCode);
         if (isValid) {
             return ResponseEntity.ok(Api.<String>builder()
                     .status(Api.SUCCESS_STATUS)
@@ -76,8 +76,9 @@ public class AuthController {
             logger.warn("유효성 검사 실패: {}", errorMap.toString());
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } else {
+        }
 
+        try {
             authService.signUp(request);
 
             response = Api.<String>builder()
@@ -89,7 +90,27 @@ public class AuthController {
             logger.info("회원가입 성공 - Email: {}", request.getEmail());
 
             return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            response = Api.<String>builder()
+                    .status(Api.FAIL_STATUS)
+                    .message(e.getMessage())
+                    .data("Email: " + request.getEmail())
+                    .build();
+
+            logger.warn("회원가입 실패 - 이유: {}", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch (Exception e) {
+            response = Api.<String>builder()
+                    .status(Api.FAIL_STATUS)
+                    .message("서버 오류")
+                    .data("Email: " + request.getEmail())
+                    .build();
+
+            logger.error("회원가입 중 서버 오류 발생: ", e);
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
 }
+
