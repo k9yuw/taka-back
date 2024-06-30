@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
+import taka.takaspring.Member.db.enums.RoleType;
 
 public class SignupDto {
 
@@ -15,10 +16,10 @@ public class SignupDto {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class SignupRequest {
 
-        @NotBlank(message = "아이디를 입력해주세요.")
-        @Size(min = 5, max = 20)
-        @Pattern(regexp = "^[a-zA-z0-9]*$", message = "아이디는 영어와 숫자만 가능합니다.")
-        private String userId;
+        @NotBlank(message = "이메일을 입력해주세요.")
+        @Email(message = "올바르지 않은 이메일 형식입니다.")
+        @Pattern(regexp = "^[A-Za-z0-9._%+-]+@korea\\.ac\\.kr$", message = "이메일은 korea.ac.kr 도메인만 허용됩니다.")
+        private String email;
 
         @NotBlank(message = "비밀번호를 입력해주세요.")
         @Size(min = 8, max = 20)
@@ -30,12 +31,12 @@ public class SignupDto {
         @Size(min = 1, max = 20)
         private String name;
 
-        @NotBlank(message = "이메일을 입력해주세요.")
-        @Email(message = "올바르지 않은 이메일 형식입니다.")
-        private String email;
-
         @NotBlank(message = "전화번호를 입력해주세요.")
         private String phoneNumber;
+
+        private RoleType role;
+
+        private String verificationCode;
 
     }
 
@@ -44,13 +45,15 @@ public class SignupDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SignUpResponse {
 
-        private String userId;
         private String email;
+        private String name;
+        private String phoneNumber;
 
         @Builder
         public SignUpResponse(UserEntity user){
-            this.userId = user.getUserId();
             this.email = user.getEmail();
+            this.name = user.getName();
+            this.phoneNumber = user.getPhoneNumber();
         }
     }
 

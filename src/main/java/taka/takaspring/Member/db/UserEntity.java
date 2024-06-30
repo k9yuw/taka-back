@@ -11,17 +11,14 @@ import taka.takaspring.common.BaseEntity;
 @Entity
 public class UserEntity extends BaseEntity {
 
-    @Column(unique = true, nullable = false, length = 32)
-    private String userId;
+    @Column(unique = true, nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private String name;
-
-    @Column(unique = true, nullable = false)
-    private String email;
 
     @Column(nullable = false)
     private String phoneNumber;
@@ -32,8 +29,7 @@ public class UserEntity extends BaseEntity {
     private RoleType role;
 
     @Builder
-    public UserEntity(String userId, String password, String name, String email, String phoneNumber, String profileImageUrl, RoleType role){
-        this.userId = userId;
+    public UserEntity(String password, String name, String email, String phoneNumber, String profileImageUrl, RoleType role){
         this.password = password;
         this.name = name;
         this.email = email;
