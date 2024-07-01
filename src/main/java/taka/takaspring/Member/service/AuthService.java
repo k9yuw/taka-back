@@ -45,6 +45,7 @@ public class AuthService {
             e.printStackTrace();
         }
     }
+
     // 프론트단에서 사용자가 확인차 입력한 verification code와 sendVerificationCode에서 생성한 verificationCode가 일치하는지 확인하는 로직
     public boolean verifyCode(String email, String code) {
         String storedCode = verifyMap.get(email);
