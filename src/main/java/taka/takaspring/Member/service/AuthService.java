@@ -38,7 +38,7 @@ public class AuthService {
             String subject = "[taka] 회원가입 인증번호 발송";
             String message = "taka 회원가입 인증번호입니다." + System.lineSeparator() + "인증번호: "+ verificationCode;
 
-//            logger.info("회원가입 인증번호 전송 완료 {}: {}", email, verificationCode);
+            logger.info("회원가입 인증번호 전송 완료 {}: {}", email, verificationCode);
             emailService.sendSimpleMessage(email, subject, message);
         } catch (Exception e) {
             System.err.println("이메일 전송에 실패했습니다: " + e.getMessage());

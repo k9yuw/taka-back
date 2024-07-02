@@ -57,7 +57,8 @@ public class SecurityConfig {
 
         // 경로별 인가 작업
         http.authorizeHttpRequests(
-                (auth) -> auth.requestMatchers("/**").permitAll().anyRequest().authenticated());
+                (auth) -> auth.requestMatchers("/**").permitAll()
+                        .anyRequest().authenticated());
 
         // LoginFilter 앞에 JWTFilter 추가
         http
@@ -69,6 +70,7 @@ public class SecurityConfig {
                         refreshRepository),
                 UsernamePasswordAuthenticationFilter.class);
 
+        // 기존에 존재하던 LogoutFilter 앞에 CustomLogoutFilter 추가
         http.addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository),
                 LogoutFilter.class);
 
