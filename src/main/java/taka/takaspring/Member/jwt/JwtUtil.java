@@ -24,10 +24,10 @@ public class JwtUtil {
     }
 
     // jwt token의 payload 부분에 들어갈 값들 검증
-    public String getUserId(String token) {
+    public String getEmail(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-                .get("userId", String.class);
+                .get("email", String.class);
     }
 
     public String getRole(String token) {

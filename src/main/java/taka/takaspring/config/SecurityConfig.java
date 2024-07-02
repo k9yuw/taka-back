@@ -12,9 +12,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import taka.takaspring.Member.jwt.*;
 
 @Configuration
 public class SecurityConfig {
+
+    //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion을 객체 생성자 주입
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtUtil jwtUtil;
+    private final RefreshRepository refreshRepository;
+
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration,
+                          JwtUtil jwtUtil, RefreshRepository refreshRepository) {
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
+        this.refreshRepository = refreshRepository;
+    }
+
+    //AuthenticationManager Bean 등록
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+            throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
     @Bean
     BCryptPasswordEncoder encode() {
@@ -38,6 +58,19 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http.authorizeHttpRequests(
                 (auth) -> auth.requestMatchers("/**").permitAll().anyRequest().authenticated());
+
+        // LoginFilter 앞에 JWTFilter 추가
+        http
+                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
+
+        //LoginFilter 추가 (AuthenticationManager 메소드에 authenticationConfiguration, jwtUtil 객체를 넣어야 함)
+        http.addFilterAt(
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,
+                        refreshRepository),
+                UsernamePasswordAuthenticationFilter.class);
+
+        http.addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository),
+                LogoutFilter.class);
 
         // 세션 stateless 상태로 설정
         http.sessionManagement(
