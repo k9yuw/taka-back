@@ -15,7 +15,6 @@ import taka.takaspring.Member.db.enums.RoleType;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static taka.takaspring.Member.db.enums.RoleType.USER;
 
 public class JwtFilter extends OncePerRequestFilter {
 
