@@ -38,7 +38,7 @@ public class PrincipalDetailsService implements UserDetailsService {
                 return new PrincipalDetails(user);
             }
         } catch (UsernameNotFoundException ex) {
-            System.out.println("UsernameNotFoundException: " + ex.getMessage());
+            logger.info("UsernameNotFoundException: {}", ex.getMessage());
             throw ex;
         }
     }
