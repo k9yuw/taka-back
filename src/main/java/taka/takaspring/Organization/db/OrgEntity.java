@@ -26,7 +26,7 @@ public class OrgEntity {
 
     private UserEntity orgAdmin;
 
-    @OneToMany(mappedBy="org")
+    @OneToMany(mappedBy = "org", cascade = CascadeType.ALL)
     private List<UserOrgEntity> userOrgList = new ArrayList<>();
 
 // 특정 단체가 가지는 대여 물품의 목록은 이미 RentalItemEntity에 외래키로 지정이 되어있다.

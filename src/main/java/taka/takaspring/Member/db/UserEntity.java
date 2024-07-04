@@ -40,12 +40,12 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserOrgEntity> userOrgList = new ArrayList<>();
 
 
     @Builder
-    public UserEntity(Long id, String email, String password, String name, String phoneNumber, String profileImageUrl, RoleType role){
+    public UserEntity(Long id, String email, String password, String name, String phoneNumber, String profileImageUrl, RoleType role, List<UserOrgEntity> userOrgList){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -53,6 +53,7 @@ public class UserEntity {
         this.phoneNumber = phoneNumber;
         this.profileImageUrl = profileImageUrl;
         this.role = role;
+        this.userOrgList = userOrgList;
     }
 
     public void update(String password, String name, String phoneNumber, RoleType role) {
