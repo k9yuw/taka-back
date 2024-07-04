@@ -32,5 +32,4 @@ public class RentalItemEntity {
 
     private String rentalPeriod;
 
-
 }
