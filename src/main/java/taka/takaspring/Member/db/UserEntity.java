@@ -6,7 +6,7 @@ import taka.takaspring.Member.db.enums.RoleType;
 import taka.takaspring.common.BaseEntity;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
 public class UserEntity extends BaseEntity {
