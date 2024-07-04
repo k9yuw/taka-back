@@ -38,4 +38,19 @@ public class UserEntity extends BaseEntity {
         this.role = role;
     }
 
+    public void update(String password, String name, String phoneNumber, RoleType role) {
+        if (password != null && !password.isEmpty()) {
+            this.password = password;
+        }
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        }
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            this.phoneNumber = phoneNumber;
+        }
+        if (role != null) {
+            this.role = role;
+        }
+    }
+
 }

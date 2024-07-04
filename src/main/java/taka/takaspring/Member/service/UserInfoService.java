@@ -1,9 +1,12 @@
 package taka.takaspring.Member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import taka.takaspring.Member.controller.AuthController;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
 import taka.takaspring.Member.service.dto.UserInfoDto;
@@ -16,6 +19,7 @@ public class UserInfoService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 
     public UserInfoDto.UserInfoResponse findUserById(Long id) {
@@ -32,39 +36,30 @@ public class UserInfoService {
 
 
 
-    public UserInfoDto.UserInfoResponse updateUser(Long id, UserInfoDto.UserInfoRequest request) {
 
+    public UserInfoDto.UserInfoResponse updateUser(Long id, UserInfoDto.UserInfoRequest request) {
         Optional<UserEntity> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isPresent()) {
             UserEntity user = optionalUser.get();
-            UserEntity updatedUser = updateEntityBuild(user, request);
-            userRepository.save(updatedUser);
-            return new UserInfoDto.UserInfoResponse(updatedUser);
+
+            // 업데이트 로직
+            updateEntityWithRequest(user, request);
+            userRepository.save(user);
+
+            return new UserInfoDto.UserInfoResponse(user);
         } else {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
         }
     }
 
-
-    private UserEntity updateEntityBuild(UserEntity user, UserInfoDto.UserInfoRequest request) {
-        UserEntity.UserEntityBuilder builder = user.toBuilder();
-
+    private void updateEntityWithRequest(UserEntity user, UserInfoDto.UserInfoRequest request) {
+        String encPassword = null;
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            String encPassword = bCryptPasswordEncoder.encode(request.getPassword());
-            builder.password(encPassword);
-        }
-        if (request.getName() != null && !request.getName().isEmpty()) {
-            builder.name(request.getName());
-        }
-        if (request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty()) {
-            builder.phoneNumber(request.getPhoneNumber());
-        }
-        if (request.getRole() != null) {
-            builder.role(request.getRole());
+            encPassword = bCryptPasswordEncoder.encode(request.getPassword());
         }
 
-        return builder.build();
-    }
+        user.update(encPassword, request.getName(), request.getPhoneNumber(), request.getRole());
     }
 
+}
