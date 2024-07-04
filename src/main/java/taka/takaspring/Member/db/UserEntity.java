@@ -29,10 +29,10 @@ public class UserEntity extends BaseEntity {
     private RoleType role;
 
     @Builder
-    public UserEntity(String password, String name, String email, String phoneNumber, String profileImageUrl, RoleType role){
+    public UserEntity(String email, String password, String name, String phoneNumber, String profileImageUrl, RoleType role){
+        this.email = email;
         this.password = password;
         this.name = name;
-        this.email = email;
         this.phoneNumber = phoneNumber;
         this.profileImageUrl = profileImageUrl;
         this.role = role;
