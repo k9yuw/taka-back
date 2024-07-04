@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserInfoService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -45,6 +45,7 @@ public class UserService {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
         }
     }
+
 
     private UserEntity updateEntityBuild(UserEntity user, UserInfoDto.UserInfoRequest request) {
         UserEntity.UserEntityBuilder builder = user.toBuilder();
