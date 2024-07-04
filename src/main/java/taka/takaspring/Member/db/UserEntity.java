@@ -3,13 +3,25 @@ package taka.takaspring.Member.db;
 import jakarta.persistence.*;
 import lombok.*;
 import taka.takaspring.Member.db.enums.RoleType;
+import taka.takaspring.Organization.db.OrgEntity;
+import taka.takaspring.Organization.db.UserOrgEntity;
 import taka.takaspring.common.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
-public class UserEntity extends BaseEntity {
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -28,8 +40,13 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
+    @OneToMany(mappedBy="user")
+    private List<UserOrgEntity> userOrgList = new ArrayList<>();
+
+
     @Builder
-    public UserEntity(String email, String password, String name, String phoneNumber, String profileImageUrl, RoleType role){
+    public UserEntity(Long id, String email, String password, String name, String phoneNumber, String profileImageUrl, RoleType role){
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
