@@ -1,5 +1,6 @@
 package taka.takaspring.Organization.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Member.service.UserInfoService;
 import taka.takaspring.Member.service.dto.UserInfoDto;
 import taka.takaspring.Organization.db.OrgEntity;
+import taka.takaspring.Organization.dto.OrgRegiDto;
 import taka.takaspring.Organization.service.OrgService;
 
 @RestController
@@ -18,8 +20,8 @@ public class OrgController {
     private final OrgService orgService;
 
     @PostMapping
-    public ResponseEntity<OrgEntity> createOrg(@RequestBody OrgEntity orgEntity) {
-        OrgEntity createdOrg = orgService.createOrg(orgEntity);
+    public ResponseEntity<OrgEntity> createOrg(@RequestBody @Valid OrgRegiDto.OrgRegiRequest request) {
+        OrgRegiDto.OrgRegiResponse createdOrg = orgService.createOrg(request);
         return ResponseEntity.ok(createdOrg);
     }
 
