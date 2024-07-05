@@ -3,13 +3,13 @@ package taka.takaspring.Organization.dto;
 import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
 
-public class OrgRegiDto {
+public class OrgDto {
 
     @Getter
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class OrgRegiRequest{
+    public static class OrgRequest{
 
         private String orgName;
         private UserEntity orgAdmin;
@@ -19,12 +19,12 @@ public class OrgRegiDto {
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class OrgRegiResponse{
+    public static class OrgResponse{
 
         private String orgName;
         private UserEntity orgAdmin;
 
-        public OrgRegiResponse(String orgName, UserEntity orgAdmin){
+        public OrgResponse(String orgName, UserEntity orgAdmin){
             this.orgName = orgName;
             this.orgAdmin = orgAdmin;
         }

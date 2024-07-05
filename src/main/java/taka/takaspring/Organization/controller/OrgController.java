@@ -2,14 +2,10 @@ package taka.takaspring.Organization.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import taka.takaspring.Member.service.UserInfoService;
-import taka.takaspring.Member.service.dto.UserInfoDto;
 import taka.takaspring.Organization.db.OrgEntity;
-import taka.takaspring.Organization.dto.OrgRegiDto;
+import taka.takaspring.Organization.dto.OrgDto;
 import taka.takaspring.Organization.service.OrgService;
 
 @RestController
@@ -20,9 +16,9 @@ public class OrgController {
     private final OrgService orgService;
 
     @PostMapping
-    public ResponseEntity<OrgEntity> createOrg(@RequestBody @Valid OrgRegiDto.OrgRegiRequest request) {
-        OrgRegiDto.OrgRegiResponse createdOrg = orgService.createOrg(request);
-        return ResponseEntity.ok(createdOrg);
+    public ResponseEntity<OrgDto.OrgResponse> createOrg(@RequestBody @Valid OrgDto.OrgRequest request) {
+        OrgDto.OrgResponse createdOrg = orgService.registerOrg(request);
+        return ResponseEntity.ok().body(createdOrg);
     }
 
     @GetMapping("/{org_id}")

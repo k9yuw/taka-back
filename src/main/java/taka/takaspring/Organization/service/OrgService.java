@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.db.OrgRepository;
-import taka.takaspring.Organization.dto.OrgRegiDto;
+import taka.takaspring.Organization.dto.OrgDto;
 
 import java.util.Optional;
+
+import static io.jsonwebtoken.impl.security.EdwardsCurve.findById;
 
 @Service
 public class OrgService {
@@ -16,7 +18,7 @@ public class OrgService {
     private OrgRepository orgRepository;
 
     @Transactional
-    public OrgRegiDto.OrgRegiResponse createOrg(OrgRegiDto.OrgRegiRequest request) {
+    public OrgDto.OrgResponse registerOrg(OrgDto.OrgRequest request) {
 
         OrgEntity orgEntity = OrgEntity.builder().
                 orgName(request.getOrgName()).
@@ -25,7 +27,7 @@ public class OrgService {
 
         orgRepository.save(orgEntity);
 
-        OrgRegiDto.OrgRegiResponse response = OrgRegiDto.OrgRegiResponse.builder().
+        OrgDto.OrgResponse response = OrgDto.OrgResponse.builder().
                 orgName(orgEntity.getOrgName()).
                 orgAdmin(orgEntity.getOrgAdmin()).
                 build();
@@ -34,11 +36,12 @@ public class OrgService {
 
     }
 
-//    @Transactional(readOnly = true)
-//    public OrgEntity getOrg(Long org_id) {
-//        Optional<OrgEntity> orgEntity = orgRepository.findById(org_id);
-//        return orgEntity.orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 단체입니다. " + org_id));
-//    }
+
+    @Transactional(readOnly = true)
+    public OrgDto.OrgResponse getOrg(Long orgId) {
+        Optional<OrgEntity> orgEntity = orgRepository.findById(orgId);
+        return orgEntity.orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 단체입니다. " + orgId));
+    }
 
     @Transactional
     public OrgEntity updateOrg(Long org_id, OrgEntity orgDetails) {
@@ -46,8 +49,9 @@ public class OrgService {
     }
 
     @Transactional
-    public void deleteOrg(Long org_id) {
-        OrgEntity orgEntity = getOrg(org_id);
+    public void deleteOrg(Long orgId) {
+        Optional<OrgEntity> orgEntityOptional = orgRepository.findById(orgId);
+        OrgEntity orgEntity = orgEntityOptional.get();
         orgRepository.delete(orgEntity);
     }
 }
