@@ -28,8 +28,8 @@ public class OrgController {
     }
 
     @PatchMapping("/{org_id}")
-    public ResponseEntity<OrgEntity> updateOrg(@PathVariable Long org_id, @RequestBody OrgEntity orgEntity) {
-        OrgEntity updatedOrg = orgService.updateOrg(org_id, orgEntity);
+    public ResponseEntity<OrgEntity> updateOrg(@PathVariable Long orgId, @RequestBody OrgDto.OrgRequest request) {
+        OrgEntity updatedOrg = orgService.updateOrg(orgId, request);
         return ResponseEntity.ok(updatedOrg);
     }
 

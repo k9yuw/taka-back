@@ -1,5 +1,6 @@
 package taka.takaspring.Organization.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +9,6 @@ import taka.takaspring.Organization.db.OrgRepository;
 import taka.takaspring.Organization.dto.OrgDto;
 
 import java.util.Optional;
-
-import static io.jsonwebtoken.impl.security.EdwardsCurve.findById;
 
 @Service
 public class OrgService {
@@ -44,8 +43,14 @@ public class OrgService {
     }
 
     @Transactional
-    public OrgEntity updateOrg(Long org_id, OrgEntity orgDetails) {
-        return orgRepository.save(orgEntity);
+    public OrgEntity updateOrg(Long orgId, OrgDto.OrgRequest request) {
+
+        OrgEntity updateOrg = orgRepository.findById(orgId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 단체입니다."));
+
+        updateOrg.updateFields(request.getOrgName(), request.getOrgAdmin());
+
+        return orgRepository.save(updateOrg);
     }
 
     @Transactional

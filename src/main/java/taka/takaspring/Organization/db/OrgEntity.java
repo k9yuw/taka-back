@@ -48,4 +48,8 @@ public class OrgEntity {
         this.userOrgList = userOrgList;
     }
 
+    public OrgEntity updateFields(String orgName, UserEntity orgAdmin) {
+        return new OrgEntity(this.id, orgName, orgAdmin, this.userOrgList);
+    }
+
 }
