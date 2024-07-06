@@ -22,9 +22,9 @@ public class OrgController {
     }
 
     @GetMapping("/{org_id}")
-    public ResponseEntity<OrgEntity> getOrg(@PathVariable Long org_id) {
-        OrgEntity orgEntity = orgService.getOrg(org_id);
-        return ResponseEntity.ok(orgEntity);
+    public ResponseEntity<OrgDto.OrgResponse> getOrg(@PathVariable Long orgId) {
+        OrgDto.OrgResponse response = orgService.getOrg(orgId);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{org_id}")

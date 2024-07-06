@@ -36,10 +36,18 @@ public class OrgService {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional
     public OrgDto.OrgResponse getOrg(Long orgId) {
-        Optional<OrgEntity> orgEntity = orgRepository.findById(orgId);
-        return orgEntity.orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 단체입니다. " + orgId));
+        OrgEntity orgEntity = orgRepository.findById(orgId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 단체입니다."));
+
+        OrgDto.OrgResponse response = OrgDto.OrgResponse.builder().
+                orgName(orgEntity.getOrgName()).
+                orgAdmin(orgEntity.getOrgAdmin()).
+                build();
+
+        return response;
+
     }
 
     @Transactional
