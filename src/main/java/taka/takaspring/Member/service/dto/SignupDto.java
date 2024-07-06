@@ -1,5 +1,6 @@
 package taka.takaspring.Member.service.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -31,6 +32,12 @@ public class SignupDto {
         @Size(min = 1, max = 20)
         private String name;
 
+        @NotBlank(message = "전공을 입력해주세요.")
+        private String major;
+
+        @NotBlank(message = "학번을 입력해주세요.")
+        private String studentNum;
+
         @NotBlank(message = "전화번호를 입력해주세요.")
         private String phoneNumber;
 
@@ -47,12 +54,16 @@ public class SignupDto {
 
         private String email;
         private String name;
+        private String major;
+        private String studentNum;
         private String phoneNumber;
 
         @Builder
         public SignUpResponse(UserEntity user){
             this.email = user.getEmail();
             this.name = user.getName();
+            this.major = user.getMajor();
+            this.studentNum = user.getStudentNum();
             this.phoneNumber = user.getPhoneNumber();
         }
     }

@@ -22,6 +22,8 @@ public class UserInfoDto {
         private String password;
         @Size(min = 1, max = 20)
         private String name;
+        private String major;
+        private String studentNum;
         private String phoneNumber;
         private RoleType role;
     }
@@ -33,6 +35,8 @@ public class UserInfoDto {
         private String email;
         private String password;
         private String name;
+        private String major;
+        private String studentNum;
         private String phoneNumber;
         private RoleType role;
 
@@ -41,6 +45,8 @@ public class UserInfoDto {
             this.email = user.getEmail();
             this.password = user.getPassword();
             this.name = user.getName();
+            this.major = user.getMajor();
+            this.studentNum = user.getStudentNum();
             this.phoneNumber = user.getPhoneNumber();
             this.role = user.getRole();
         }

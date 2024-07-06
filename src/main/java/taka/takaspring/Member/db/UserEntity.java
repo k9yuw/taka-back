@@ -34,6 +34,12 @@ public class UserEntity {
     private String name;
 
     @Column(nullable = false)
+    private String major;
+
+    @Column(nullable = false)
+    private String studentNum;
+
+    @Column(nullable = false)
     private String phoneNumber;
 
     private String profileImageUrl;
@@ -47,11 +53,13 @@ public class UserEntity {
 
 
     @Builder
-    public UserEntity(Long id, String email, String password, String name, String phoneNumber, String profileImageUrl, RoleType role, List<UserOrgEntity> userOrgList){
+    public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role, List<UserOrgEntity> userOrgList){
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
+        this.major = major;
+        this.studentNum = studentNum;
         this.phoneNumber = phoneNumber;
         this.profileImageUrl = profileImageUrl;
         this.role = role;
