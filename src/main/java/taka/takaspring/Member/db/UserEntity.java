@@ -16,6 +16,7 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
+@Table(name = "user_entity")
 public class UserEntity {
 
     @Id
@@ -40,7 +41,8 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<UserOrgEntity> userOrgList = new ArrayList<>();
 
 

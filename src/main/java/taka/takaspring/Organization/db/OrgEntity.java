@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
+@Table(name = "org_entity")
 public class OrgEntity {
 
     @Id
@@ -26,9 +27,12 @@ public class OrgEntity {
     @Column(unique = true, nullable = false)
     private String orgName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_admin_id")
     private UserEntity orgAdmin;
 
-    @OneToMany(mappedBy = "org", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "org", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<UserOrgEntity> userOrgList = new ArrayList<>();
 
 // 특정 단체가 가지는 대여 물품의 목록은 이미 RentalItemEntity에 외래키로 지정이 되어있다.

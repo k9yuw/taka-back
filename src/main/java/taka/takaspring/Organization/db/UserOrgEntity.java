@@ -1,9 +1,13 @@
 package taka.takaspring.Organization.db;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
 import taka.takaspring.Member.db.UserEntity;
 
 @Entity
+@Getter
+@Builder
 public class UserOrgEntity {
 
     @Id
@@ -12,10 +16,10 @@ public class UserOrgEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "org_id")
+    @JoinColumn(name = "org_id", nullable = false)
     private OrgEntity org;
 }
