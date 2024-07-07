@@ -18,18 +18,16 @@ public class UserOrgDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public class UserByOrgResponse{
-
+    @Builder
+    public class UserByOrgResponse {
         private String name;
         private String major;
         private String studentNum;
 
-        @Builder
-        public UserByOrgResponse(UserOrgEntity userOrgEntity){
-            this.name = userOrgEntity.getUser().getName();
-            this.major = userOrgEntity.getUser().getMajor();
-            this.studentNum = userOrgEntity.getUser().getStudentNum();
+        public UserByOrgResponse(String name, String major, String studentNum) {
+            this.name = name;
+            this.major = major;
+            this.studentNum = studentNum;
         }
-
     }
 }
