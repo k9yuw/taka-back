@@ -75,6 +75,8 @@ public class AuthService {
                 .email(request.getEmail())
                 .password(encPassword)
                 .name(request.getName())
+                .major(request.getMajor())
+                .studentNum(request.getStudentNum())
                 .phoneNumber(request.getPhoneNumber())
                 .role(USER)
                 .build();
