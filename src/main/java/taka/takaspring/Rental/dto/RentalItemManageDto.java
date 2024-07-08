@@ -34,10 +34,12 @@ public class RentalItemManageDto {
 
         private String itemName;
         private String rentalPeriod;
+        private boolean isAvailable;
 
-        public RentalItemManageResponse(String itemName, String rentalPeriod){
+        public RentalItemManageResponse(String itemName, String rentalPeriod, boolean isAvailable){
             this.itemName = itemName;
             this.rentalPeriod = rentalPeriod;
+            this.isAvailable = isAvailable;
         }
     }
 

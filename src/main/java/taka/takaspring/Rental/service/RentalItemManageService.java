@@ -2,17 +2,18 @@ package taka.takaspring.Rental.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.db.OrgRepository;
+import taka.takaspring.Organization.db.UserOrgEntity;
+import taka.takaspring.Organization.dto.UserOrgDto;
 import taka.takaspring.Rental.db.RentalItemEntity;
 import taka.takaspring.Rental.db.RentalItemRepository;
 import taka.takaspring.Rental.dto.RentalItemManageDto;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RentalItemManageService {
@@ -24,6 +25,25 @@ public class RentalItemManageService {
     public RentalItemManageService(RentalItemRepository rentalItemRepository, OrgRepository orgRepository) {
         this.rentalItemRepository = rentalItemRepository;
         this.orgRepository = orgRepository;
+    }
+
+    @Transactional
+    public List<RentalItemManageDto.RentalItemManageResponse> getRentalItemsByOrgId(Long orgId){
+        List<RentalItemEntity> rentalItemEntities = rentalItemRepository.findByOrganizationId(orgId);
+        return rentalItemEntities.stream()
+                .map(this::convertToRentalItemManageResponse)
+                .collect(Collectors.toList());
+    }
+
+    private RentalItemManageDto.RentalItemManageResponse convertToRentalItemManageResponse(RentalItemEntity rentalItemEntity) {
+
+        RentalItemManageDto.RentalItemManageResponse response = RentalItemManageDto.RentalItemManageResponse.builder().
+                itemName(rentalItemEntity.getItemName()).
+                rentalPeriod(rentalItemEntity.getRentalPeriod()).
+                isAvailable(rentalItemEntity.isAvailable()).
+                build();
+
+        return response;
     }
 
     @Transactional
