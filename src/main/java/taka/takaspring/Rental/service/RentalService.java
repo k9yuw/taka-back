@@ -13,8 +13,12 @@ import taka.takaspring.Rental.db.RentalItemRepository;
 import taka.takaspring.Rental.db.RentalRecordEntity;
 import taka.takaspring.Rental.db.RentalRecordRepository;
 import taka.takaspring.Rental.dto.RentalDto;
+import taka.takaspring.Rental.dto.ReturnDto;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static ch.qos.logback.classic.spi.ThrowableProxyVO.build;
 
 @Service
 public class RentalService {
@@ -73,14 +77,31 @@ public class RentalService {
     }
 
     @Transactional
-    public RentalRecordEntity returnItem(Long userId, Long rentalRecordId) {
-        RentalRecordEntity rentalRecord = rentalRecordRepository.findByIdAndUserId(rentalRecordId, userId)
+    public ReturnDto.ReturnResponse returnItem(ReturnDto.ReturnRequest request) {
+
+        Long userId = request.getRentalRecord().getUser().getId();
+        Long rentalRecordId = request.getRentalRecord().getId();
+
+        Optional<RentalRecordEntity> optionalRentalRecord = rentalRecordRepository.findByIdAndUserId(rentalRecordId, userId);
+
+        RentalRecordEntity rentalRecord = optionalRentalRecord
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 대여기록입니다."));
 
         rentalRecord.markAsReturned();
         rentalRecord.getItem().setAvailable(true);
 
-        return rentalRecordRepository.save(rentalRecord);
+        rentalRecordRepository.save(rentalRecord);
+
+        ReturnDto.ReturnResponse response = ReturnDto.ReturnResponse.builder()
+                .userName(rentalRecord.getUser().getName())
+                .orgName(rentalRecord.getOrganization().getOrgName())
+                .itemName(rentalRecord.getItem().getItemName())
+                .rentalStartDate(rentalRecord.getRentalStartDate())
+                .returnDate(LocalDateTime.now())
+                .isReturned(rentalRecord.isReturned())
+                .build();
+
+        return response;
     }
 
     @Transactional(readOnly = true)

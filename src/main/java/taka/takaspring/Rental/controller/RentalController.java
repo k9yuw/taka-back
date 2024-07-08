@@ -25,4 +25,5 @@ public class RentalController {
         return ResponseEntity.ok(response);
     }
 
+
 }

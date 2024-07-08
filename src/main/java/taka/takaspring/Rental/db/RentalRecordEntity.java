@@ -38,16 +38,19 @@ public class RentalRecordEntity {
     @Column(nullable = false)
     private LocalDateTime rentalEndDate;
 
+    private LocalDateTime returnDate;
+
     @Column(nullable = false)
     private boolean isReturned;
 
-    public RentalRecordEntity(UserEntity user, OrgEntity organization, RentalItemEntity item, LocalDateTime rentalStartDate, LocalDateTime rentalEndDate) {
+    public RentalRecordEntity(UserEntity user, OrgEntity organization, RentalItemEntity item, LocalDateTime rentalStartDate, LocalDateTime rentalEndDate, LocalDateTime returnDate) {
         this.user = user;
         this.organization = organization;
         this.item = item;
         this.rentalStartDate = rentalStartDate;
         this.rentalEndDate = rentalEndDate;
         this.isReturned = false;
+        this.returnDate = returnDate;
     }
 
     public void markAsReturned() {
