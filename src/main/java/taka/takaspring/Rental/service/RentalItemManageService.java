@@ -53,7 +53,7 @@ public class RentalItemManageService {
 
     @Transactional
     public RentalItemEntity updateRentalItem(Long orgId, Long itemId, RentalItemManageDto.RentalItemManageRequest request) {
-        RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrgId(itemId, orgId)
+        RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrganizationId(itemId, orgId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 물품이 존재하지 않습니다."));
 
         rentalItem.updateFields(request.getItemName(), request.isAvailable(), request.getRentalPeriod(), request.getItemImageUrl());
@@ -63,7 +63,7 @@ public class RentalItemManageService {
 
     @Transactional
     public void deleteRentalItem(Long organizationId, Long itemId) {
-        RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrgId(itemId, organizationId)
+        RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrganizationId(itemId, organizationId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 물품이 존재하지 않습니다."));
 
         rentalItemRepository.delete(rentalItem);

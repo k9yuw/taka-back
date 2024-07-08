@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface RentalItemRepository extends JpaRepository<RentalItemEntity, Long> {
-    Optional<RentalItemEntity> findByIdAndOrgId(Long id, Long organizationId);
+    Optional<RentalItemEntity> findByIdAndOrganizationId(Long id, Long organizationId);
 }

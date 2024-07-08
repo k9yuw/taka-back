@@ -9,7 +9,7 @@ public class UserOrgDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public class UserByOrgRequest{
+    public static class UserByOrgRequest{
 
         private Long orgId;
 
@@ -19,7 +19,7 @@ public class UserOrgDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
-    public class UserByOrgResponse {
+    public static class UserByOrgResponse {
         private String name;
         private String major;
         private String studentNum;
