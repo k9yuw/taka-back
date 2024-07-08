@@ -48,4 +48,8 @@ public class RentalItemEntity {
     public RentalItemEntity updateFields(String itemName, boolean isAvailable, String rentalPeriod, String itemImageUrl) {
         return new RentalItemEntity(this.id, itemName, this.organization, isAvailable, rentalPeriod, itemImageUrl);
     }
+
+    public void setAvailable(boolean available) {
+        this.isAvailable = available;
+    }
 }
