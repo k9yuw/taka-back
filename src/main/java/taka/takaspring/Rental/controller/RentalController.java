@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Rental.dto.RentalDto;
+import taka.takaspring.Rental.dto.ReturnDto;
 import taka.takaspring.Rental.service.RentalService;
 
 @RestController
@@ -17,6 +18,7 @@ public class RentalController {
         this.rentalService = rentalService;
     }
 
+    // 대여
     @PostMapping("/{organization_id}/{item_id}")
     public ResponseEntity<RentalDto.RentalResponse> rentItem(@RequestBody RentalDto.RentalRequest request,
                                                              @PathVariable("organization_id") Long orgId,
@@ -25,5 +27,12 @@ public class RentalController {
         return ResponseEntity.ok(response);
     }
 
+    // 반납
+    @PostMapping("/return/{rental_record_id)")
+    public ResponseEntity<ReturnDto.ReturnResponse> returnItem(@RequestBody ReturnDto.ReturnRequest request,
+                                                               @PathVariable("rental_record_id") Long rentalRecordId) {
+        ReturnDto.ReturnResponse response = rentalService.returnItem(request);
+        return ResponseEntity.ok(response);
+    }
 
 }
