@@ -22,4 +22,5 @@ public class UserOrgEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private OrgEntity org;
+
 }

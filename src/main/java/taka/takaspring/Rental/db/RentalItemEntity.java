@@ -2,6 +2,7 @@ package taka.takaspring.Rental.db;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import taka.takaspring.Member.db.UserEntity;
@@ -32,4 +33,23 @@ public class RentalItemEntity {
 
     private String rentalPeriod;
 
+    private String itemImageUrl;
+
+    @Builder
+    public RentalItemEntity(Long id, String itemName, OrgEntity organization, boolean isAvailable, String rentalPeriod, String itemImageUrl){
+        this.id = id;
+        this.itemName = itemName;
+        this.organization = organization;
+        this.isAvailable = isAvailable;
+        this.rentalPeriod = rentalPeriod;
+        this.itemImageUrl = itemImageUrl;
+    }
+
+    public RentalItemEntity updateFields(String itemName, boolean isAvailable, String rentalPeriod, String itemImageUrl) {
+        return new RentalItemEntity(this.id, itemName, this.organization, isAvailable, rentalPeriod, itemImageUrl);
+    }
+
+    public void setAvailable(boolean available) {
+        this.isAvailable = available;
+    }
 }
