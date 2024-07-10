@@ -28,7 +28,7 @@ public class RentalController {
     }
 
     // 반납
-    @PostMapping("/return/{rental_record_id)")
+    @PostMapping("/return/{rental_record_id}")
     public ResponseEntity<ReturnDto.ReturnResponse> returnItem(@RequestBody ReturnDto.ReturnRequest request,
                                                                @PathVariable("rental_record_id") Long rentalRecordId) {
         ReturnDto.ReturnResponse response = rentalService.returnItem(request);
