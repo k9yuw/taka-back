@@ -35,4 +35,11 @@ public class RentalController {
         return ResponseEntity.ok(response);
     }
 
+    // 대여 기록 조회
+    @GetMapping("/{user_id}/{rental_record_id}")
+    public ResponseEntity<RentalDto.RentalResponse> getRentalRecord(@PathVariable("user_id") Long userId,
+                                                                    @PathVariable("rental_record_id") Long rentalRecordId) {
+        RentalDto.RentalResponse response = rentalService.getRentalRecords(rentalRecordId, userId);
+        return ResponseEntity.ok(response);
+    }
 }

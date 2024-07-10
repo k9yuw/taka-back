@@ -16,6 +16,7 @@ import taka.takaspring.Rental.dto.RentalDto;
 import taka.takaspring.Rental.dto.ReturnDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static ch.qos.logback.classic.spi.ThrowableProxyVO.build;
@@ -104,9 +105,20 @@ public class RentalService {
         return response;
     }
 
-    @Transactional(readOnly = true)
-    public List<RentalRecordEntity> getRentalRecords(Long userId, Long orgId) {
-        return rentalRecordRepository.findByUserIdAndItemOrganizationId(userId, orgId);
+    @Transactional
+    public RentalDto.RentalResponse getRentalRecords(Long rentalRecordId, Long userId) {
+        Optional<RentalRecordEntity> optionalRecordEntity = rentalRecordRepository.findByIdAndUserId(rentalRecordId, userId);
+        RentalRecordEntity recordEntity = optionalRecordEntity.get();
+
+        RentalDto.RentalResponse response = RentalDto.RentalResponse.builder().
+                userName(recordEntity.getUser().getName()).
+                orgName(recordEntity.getOrganization().getOrgName()).
+                itemName(recordEntity.getItem().getItemName()).
+                rentalStartDate(recordEntity.getRentalStartDate()).
+                returnDate(recordEntity.getReturnDate()).
+                build();
+
+        return response;
     }
 
 }
