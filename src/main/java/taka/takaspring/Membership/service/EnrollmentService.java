@@ -1,7 +1,6 @@
 package taka.takaspring.Membership.service;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Member.db.UserEntity;
@@ -9,11 +8,12 @@ import taka.takaspring.Member.db.UserRepository;
 import taka.takaspring.Membership.db.MembershipEntity;
 import taka.takaspring.Membership.db.MembershipRepository;
 import taka.takaspring.Membership.dto.EnrollmentDto;
+import taka.takaspring.Membership.dto.MembershipDto;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.db.OrgRepository;
 
-import java.lang.reflect.Member;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EnrollmentService {
@@ -83,4 +83,20 @@ public class EnrollmentService {
 
     }
 
+    @Transactional
+    public List<EnrollmentDto.EnrollmentIntermediateRequest> getPendingUsers(Long organizationId) {
+        List<MembershipEntity> membershipEntities = membershipRepository.findByOrgAndStatus(organizationId, MembershipEntity.MembershipStatus.PENDING);
+        return membershipEntities.stream()
+                .map(this::convertToEnrollmentIntermediateRequest)
+                .collect(Collectors.toList());
+    }
+
+    private EnrollmentDto.EnrollmentIntermediateRequest convertToEnrollmentIntermediateRequest(MembershipEntity membershipEntity) {
+
+        EnrollmentDto.EnrollmentIntermediateRequest response = EnrollmentDto.EnrollmentIntermediateRequest.builder().
+                membership(membershipEntity).
+                build();
+
+        return response;
+    }
 }
