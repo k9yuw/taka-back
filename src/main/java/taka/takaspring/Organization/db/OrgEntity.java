@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Rental.db.RentalItemEntity;
-import taka.takaspring.common.BaseEntity;
+import taka.takaspring.Membership.db.MembershipEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class OrgEntity {
 
     @OneToMany(mappedBy = "org", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<UserOrgEntity> userOrgList = new ArrayList<>();
+    private List<MembershipEntity> userOrgList = new ArrayList<>();
 
 // 특정 단체가 가지는 대여 물품의 목록은 이미 RentalItemEntity에 외래키로 지정이 되어있다.
 // 즉 쿼리의 시작은 RentalItemEntity이기 때문에 굳이 대여물품 리스트를 양방향 매핑 할 필요는 없음.
@@ -45,7 +44,7 @@ public class OrgEntity {
 
 
     @Builder
-    public OrgEntity(Long id, String orgName, UserEntity orgAdmin, List<UserOrgEntity> userOrgList){
+    public OrgEntity(Long id, String orgName, UserEntity orgAdmin, List<MembershipEntity> userOrgList){
         this.id = id;
         this.orgName = orgName;
         this.orgAdmin = orgAdmin;

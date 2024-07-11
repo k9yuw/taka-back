@@ -3,14 +3,10 @@ package taka.takaspring.Member.db;
 import jakarta.persistence.*;
 import lombok.*;
 import taka.takaspring.Member.db.enums.RoleType;
-import taka.takaspring.Organization.db.OrgEntity;
-import taka.takaspring.Organization.db.UserOrgEntity;
-import taka.takaspring.common.BaseEntity;
+import taka.takaspring.Membership.db.MembershipEntity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Builder(toBuilder = true)
@@ -49,11 +45,11 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<UserOrgEntity> userOrgList = new ArrayList<>();
+    private List<MembershipEntity> userOrgList = new ArrayList<>();
 
 
     @Builder
-    public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role, List<UserOrgEntity> userOrgList){
+    public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role, List<MembershipEntity> userOrgList){
         this.id = id;
         this.email = email;
         this.password = password;

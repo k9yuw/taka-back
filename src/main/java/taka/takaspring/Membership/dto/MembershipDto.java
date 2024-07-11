@@ -1,18 +1,15 @@
-package taka.takaspring.Organization.dto;
+package taka.takaspring.Membership.dto;
 
 import lombok.*;
-import taka.takaspring.Organization.db.UserOrgEntity;
 
-public class UserOrgDto {
+public class MembershipDto {
 
     @Getter
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UserByOrgRequest{
-
         private Long orgId;
-
     }
 
 
