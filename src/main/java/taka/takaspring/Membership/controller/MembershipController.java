@@ -35,5 +35,4 @@ public class MembershipController {
         return ResponseEntity.ok().build();
     }
 
-    //
 }

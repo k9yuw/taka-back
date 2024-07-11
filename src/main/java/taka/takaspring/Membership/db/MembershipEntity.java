@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Membership.db.enums.MembershipStatus;
 import taka.takaspring.Organization.db.OrgEntity;
 
 @Entity
@@ -29,4 +28,16 @@ public class MembershipEntity {
     @Column(nullable = false)
     private MembershipStatus status;
 
+    public enum MembershipStatus {
+        PENDING,
+        APPROVED,
+        REJECTED
+    }
+
+    public MembershipEntity(Long id, UserEntity user, OrgEntity org, MembershipStatus status){
+        this.id = id;
+        this.user = user;
+        this.org = org;
+        this.status = status;
+    }
 }

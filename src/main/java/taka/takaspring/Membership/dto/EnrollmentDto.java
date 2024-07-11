@@ -1,6 +1,8 @@
 package taka.takaspring.Membership.dto;
 
 import lombok.*;
+import taka.takaspring.Member.db.UserEntity;
+import taka.takaspring.Organization.db.OrgEntity;
 
 public class EnrollmentDto {
 
@@ -9,7 +11,8 @@ public class EnrollmentDto {
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class EnrollmentRequest{
-
+        private UserEntity user;
+        private OrgEntity org;
     }
 
 
