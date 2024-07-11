@@ -3,6 +3,7 @@ package taka.takaspring.Membership.db;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Organization.db.OrgEntity;
 
@@ -26,6 +27,7 @@ public class MembershipEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Setter
     private MembershipStatus status;
 
     public enum MembershipStatus {
@@ -40,4 +42,5 @@ public class MembershipEntity {
         this.org = org;
         this.status = status;
     }
+
 }

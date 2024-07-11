@@ -47,11 +47,36 @@ public class EnrollmentService {
         membershipRepository.save(enrollment);
     }
 
-    public EnrollmentDto.EnrollmentResponse approveEnrollment(){
+    public EnrollmentDto.EnrollmentResponse approveEnrollment(EnrollmentDto.EnrollmentIntermediateRequest request){
 
+        Long membershipId = request.getMembership().getId();
+        MembershipEntity membership = membershipRepository.findById(membershipId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 요청입니다."));
+
+        membership.setStatus(MembershipEntity.MembershipStatus.APPROVED);
+
+        EnrollmentDto.EnrollmentResponse response = EnrollmentDto.EnrollmentResponse.builder().
+                userName(membership.getUser().getName()).
+                orgName(membership.getOrg().getOrgName()).
+                build();
+
+        return response;
     }
 
-    public EnrollmentDto.EnrollmentResponse rejectEnrollment(){
+    public EnrollmentDto.EnrollmentResponse rejectEnrollment(EnrollmentDto.EnrollmentIntermediateRequest request){
+
+        Long membershipId = request.getMembership().getId();
+        MembershipEntity membership = membershipRepository.findById(membershipId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 요청입니다."));
+
+        membership.setStatus(MembershipEntity.MembershipStatus.REJECTED);
+
+        EnrollmentDto.EnrollmentResponse response = EnrollmentDto.EnrollmentResponse.builder().
+                userName(membership.getUser().getName()).
+                orgName(membership.getOrg().getOrgName()).
+                build();
+
+        return response;
 
     }
 
