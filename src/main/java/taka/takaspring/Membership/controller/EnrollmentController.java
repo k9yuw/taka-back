@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Membership.dto.EnrollmentDto;
-import taka.takaspring.Membership.dto.MembershipDto;
 import taka.takaspring.Membership.service.EnrollmentService;
 
 import java.util.List;
