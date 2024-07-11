@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.db.OrgRepository;
-import taka.takaspring.Organization.db.UserOrgEntity;
-import taka.takaspring.Organization.dto.UserOrgDto;
 import taka.takaspring.Rental.db.RentalItemEntity;
 import taka.takaspring.Rental.db.RentalItemRepository;
 import taka.takaspring.Rental.dto.RentalItemManageDto;

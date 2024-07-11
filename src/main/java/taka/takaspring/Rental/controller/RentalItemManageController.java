@@ -3,7 +3,6 @@ package taka.takaspring.Rental.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import taka.takaspring.Organization.dto.UserOrgDto;
 import taka.takaspring.Rental.db.RentalItemEntity;
 import taka.takaspring.Rental.dto.RentalItemManageDto;
 import taka.takaspring.Rental.service.RentalItemManageService;

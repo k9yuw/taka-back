@@ -1,14 +1,16 @@
-package taka.takaspring.Organization.db;
+package taka.takaspring.Membership.db;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import taka.takaspring.Member.db.UserEntity;
+import taka.takaspring.Membership.db.enums.MembershipStatus;
+import taka.takaspring.Organization.db.OrgEntity;
 
 @Entity
 @Getter
 @Builder
-public class UserOrgEntity {
+public class MembershipEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,9 @@ public class UserOrgEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private OrgEntity org;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MembershipStatus status;
 
 }
