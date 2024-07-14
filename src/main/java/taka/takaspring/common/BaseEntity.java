@@ -18,21 +18,12 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
 
-//    @Column(nullable = false)
-    private Boolean isActive = true;
-
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime ModifiedDate;
 
-    public void deactivate() {
-        this.isActive = false;
-    }
 
-    public void activate() {
-        this.isActive = true;
-    }
 }

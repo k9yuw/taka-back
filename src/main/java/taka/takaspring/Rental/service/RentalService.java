@@ -65,7 +65,7 @@ public class RentalService {
         LocalDateTime startDate = LocalDateTime.now();
         LocalDateTime returnDate = startDate.plusDays(days);
 
-        RentalRecordEntity rentalRecord = new RentalRecordEntity(user, org, item, startDate, returnDate);
+        RentalRecordEntity rentalRecord = new RentalRecordEntity(user, item, startDate, returnDate);
         rentalRecordRepository.save(rentalRecord);
 
         RentalDto.RentalResponse response = RentalDto.RentalResponse.builder().

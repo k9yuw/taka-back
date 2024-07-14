@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Organization.db.OrgEntity;
+import taka.takaspring.common.BaseEntity;
 
 @Entity
 @Getter
 @Builder
-public class MembershipEntity {
+public class MembershipEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,9 @@ public class MembershipEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private OrgEntity org;
+
+    @Column(nullable = false)
+    private boolean isAdmin;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
