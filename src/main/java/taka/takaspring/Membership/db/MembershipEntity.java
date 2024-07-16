@@ -5,12 +5,13 @@ import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.common.BaseEntity;
+import org.hibernate.envers.Audited;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder(toBuilder = true)
 @Table(name = "membership_entity")
+@Audited
 public class MembershipEntity extends BaseEntity {
 
     @Id
@@ -39,12 +40,4 @@ public class MembershipEntity extends BaseEntity {
         APPROVED,
         REJECTED
     }
-
-    public MembershipEntity(Long id, UserEntity user, OrgEntity org, MembershipStatus status){
-        this.id = id;
-        this.user = user;
-        this.org = org;
-        this.status = status;
-    }
-
 }
