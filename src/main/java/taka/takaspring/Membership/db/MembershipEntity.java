@@ -1,16 +1,18 @@
 package taka.takaspring.Membership.db;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Organization.db.OrgEntity;
+import taka.takaspring.common.BaseEntity;
+import org.hibernate.envers.Audited;
 
 @Entity
 @Getter
-@Builder
-public class MembershipEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "membership_entity")
+@Audited
+public class MembershipEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,9 @@ public class MembershipEntity {
     @JoinColumn(name = "org_id", nullable = false)
     private OrgEntity org;
 
+    @Column(nullable = false)
+    private boolean isAdmin;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Setter
@@ -35,12 +40,4 @@ public class MembershipEntity {
         APPROVED,
         REJECTED
     }
-
-    public MembershipEntity(Long id, UserEntity user, OrgEntity org, MembershipStatus status){
-        this.id = id;
-        this.user = user;
-        this.org = org;
-        this.status = status;
-    }
-
 }

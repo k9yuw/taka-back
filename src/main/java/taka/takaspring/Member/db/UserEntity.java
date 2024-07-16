@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import taka.takaspring.Member.db.enums.RoleType;
 import taka.takaspring.Membership.db.MembershipEntity;
+import taka.takaspring.common.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
 @Table(name = "user_entity")
-public class UserEntity {
+public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,13 +44,13 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<MembershipEntity> userOrgList = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @Builder.Default
+//    private List<MembershipEntity> userOrgList = new ArrayList<>();
 
 
     @Builder
-    public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role, List<MembershipEntity> userOrgList){
+    public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -59,7 +60,6 @@ public class UserEntity {
         this.phoneNumber = phoneNumber;
         this.profileImageUrl = profileImageUrl;
         this.role = role;
-        this.userOrgList = userOrgList;
     }
 
     public void update(String password, String name, String phoneNumber, RoleType role) {

@@ -12,9 +12,11 @@ import taka.takaspring.common.BaseEntity;
 import java.time.LocalDateTime;
 
 @Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 의미없는 객체 생성 시 컴파일 에러 발생시킴
 @Entity
-public class RentalItemEntity {
+@Table(name = "rental_item_entity")
+public class RentalItemEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +33,7 @@ public class RentalItemEntity {
     @Column(nullable = false)
     private boolean isAvailable;
 
+    @Column(nullable = false)
     private String rentalPeriod;
 
     private String itemImageUrl;

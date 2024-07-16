@@ -2,10 +2,10 @@ package taka.takaspring.Rental.db;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.common.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class RentalRecordEntity {
+@Table(name = "rental_record_entity")
+public class RentalRecordEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +24,6 @@ public class RentalRecordEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
-    private OrgEntity organization;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
@@ -43,9 +40,8 @@ public class RentalRecordEntity {
     @Column(nullable = false)
     private boolean isReturned;
 
-    public RentalRecordEntity(UserEntity user, OrgEntity organization, RentalItemEntity item, LocalDateTime rentalStartDate, LocalDateTime rentalEndDate) {
+    public RentalRecordEntity(UserEntity user, RentalItemEntity item, LocalDateTime rentalStartDate, LocalDateTime rentalEndDate) {
         this.user = user;
-        this.organization = organization;
         this.item = item;
         this.rentalStartDate = rentalStartDate;
         this.rentalEndDate = rentalEndDate;
