@@ -1,16 +1,16 @@
 package taka.takaspring.Membership.db;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.common.BaseEntity;
 
 @Entity
 @Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(toBuilder = true)
+@Table(name = "membership_entity")
 public class MembershipEntity extends BaseEntity {
 
     @Id

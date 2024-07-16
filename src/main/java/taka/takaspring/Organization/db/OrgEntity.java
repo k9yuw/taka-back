@@ -27,21 +27,10 @@ public class OrgEntity extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String orgName;
 
+    @Column(nullable = false)
     private String department;
 
     private String orgDescription;
-
-//    @OneToMany(mappedBy = "org", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @Builder.Default
-//    private List<MembershipEntity> userOrgList = new ArrayList<>();
-
-// 특정 단체가 가지는 대여 물품의 목록은 이미 RentalItemEntity에 외래키로 지정이 되어있다.
-// 즉 쿼리의 시작은 RentalItemEntity이기 때문에 굳이 대여물품 리스트를 양방향 매핑 할 필요는 없음.
-// 근데 또 바로 조회가 필요할 때는 그냥 리스트를 넣어놓는게 좋을수도 있음
-// 사실 단방향으로 모든걸 해도 문제는 없는데 필요에 의해 양방향이 필요할 때도 있음
-
-//    @OneToMany(mappedBy = "rentalItemEntity", cascade = CascadeType.ALL)
-//    private List<RentalItemEntity> rentalItemsList = new ArrayList<>();
 
 
     @Builder

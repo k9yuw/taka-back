@@ -2,10 +2,10 @@ package taka.takaspring.Rental.db;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.common.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "rental_record_entity")
 public class RentalRecordEntity extends BaseEntity {
 
     @Id
