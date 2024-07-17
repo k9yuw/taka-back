@@ -3,7 +3,6 @@ package taka.takaspring.Member.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +34,15 @@ public class AuthService {
             String verificationCode = UUID.randomUUID().toString().substring(0, 6);
             verifyMap.put(email, verificationCode);
 
+            // 이메일 전송
             String subject = "[taka] 회원가입 인증번호 발송";
             String message = "taka 회원가입 인증번호입니다." + System.lineSeparator() + "인증번호: "+ verificationCode;
+            emailService.sendSimpleMessage(email, subject, message);
 
             logger.info("회원가입 인증번호 전송 완료 {}: {}", email, verificationCode);
-            emailService.sendSimpleMessage(email, subject, message);
+
         } catch (Exception e) {
-            System.err.println("이메일 전송에 실패했습니다: " + e.getMessage());
+            logger.info("회원가입 인증번호 전송에 실패했습니다: " + e.getMessage());
             e.printStackTrace();
         }
     }
