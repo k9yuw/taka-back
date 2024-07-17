@@ -1,7 +1,6 @@
-package taka.takaspring.common;
+package taka.takaspring.common.exception;
 
 import lombok.Getter;
-import taka.takaspring.common.exception.ErrorCode;
 
 @Getter
 public class ErrorResponse {
