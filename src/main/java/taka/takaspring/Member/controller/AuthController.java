@@ -119,29 +119,6 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(HttpServletRequest request,
-                                   HttpServletResponse response) {
-        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            request.getEmail(),
-//                            request.getPassword()
-//                    )
-//            );
-//
-//            // JWT 토큰 생성 및 응답 반환
-//            String token = jwtUtil.createJwt(authentication);
-            return ResponseEntity.status(HttpStatus.OK).body("Internal server error");
-
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
-        } catch (Exception e) {
-            // 모든 예외를 잡아 로그를 남기고, 적절한 에러 메시지를 반환
-            logger.error("Unexpected error during login", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
-    }
 
 }
 

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
+import taka.takaspring.Member.exception.EmailDuplicateException;
+import taka.takaspring.Member.exception.InvalidVerificationCodeException;
+import taka.takaspring.Member.exception.StudentNumberDuplicateException;
 import taka.takaspring.Member.service.dto.SignupDto;
 
 import java.util.HashMap;
@@ -62,11 +65,15 @@ public class AuthService {
     @Transactional
     public UserEntity signUp(SignupDto.SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new EmailDuplicateException();
+        }
+
+        if () {
+            throw new StudentNumberDuplicateException();
         }
 
         if (!verifyCode(request.getEmail(), request.getVerificationCode())) {
-            throw new IllegalArgumentException("회원가입 인증코드가 틀렸습니다.");
+            throw new InvalidVerificationCodeException();
         }
 
         String rawPassword = request.getPassword();
