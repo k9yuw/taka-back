@@ -8,23 +8,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
-import taka.takaspring.common.exception.ApiException;
 
 import java.util.Optional;
 
 @Service
 public class EmailService {
 
-    private final UserRepository userRepository;
     private final JavaMailSender emailSender;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public EmailService(UserRepository userRepository, JavaMailSender emailSender,
-                        BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
+    public EmailService(JavaMailSender emailSender) {
         this.emailSender = emailSender;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public void sendSimpleMessage(String to, String subject, String text) {

@@ -3,12 +3,15 @@ package taka.takaspring.Member.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
+import taka.takaspring.Member.exception.EmailDuplicateException;
+import taka.takaspring.Member.exception.InvalidVerificationCodeException;
+import taka.takaspring.Member.exception.StudentNumberDuplicateException;
+import taka.takaspring.Member.exception.VerificationCodeSendingFailureException;
 import taka.takaspring.Member.service.dto.SignupDto;
 
 import java.util.HashMap;
@@ -35,14 +38,17 @@ public class AuthService {
             String verificationCode = UUID.randomUUID().toString().substring(0, 6);
             verifyMap.put(email, verificationCode);
 
+            // 이메일 전송
             String subject = "[taka] 회원가입 인증번호 발송";
             String message = "taka 회원가입 인증번호입니다." + System.lineSeparator() + "인증번호: "+ verificationCode;
-
-            logger.info("회원가입 인증번호 전송 완료 {}: {}", email, verificationCode);
             emailService.sendSimpleMessage(email, subject, message);
+
+            logger.info("회원가입 인증번호 전송 완료: {} - {}", email, verificationCode);
+
         } catch (Exception e) {
-            System.err.println("이메일 전송에 실패했습니다: " + e.getMessage());
-            e.printStackTrace();
+            String errorMessage = String.format("회원가입 인증번호 전송 오류 발생: email=%s, error=%s", email, e.getMessage());
+            logger.error(errorMessage, e);
+            throw new VerificationCodeSendingFailureException(errorMessage);
         }
     }
 
@@ -52,20 +58,34 @@ public class AuthService {
 //        logger.info("저장된 코드 {}: {}", email, storedCode);
 
         if (storedCode != null && storedCode.equals(code)) {
-//            verifyMap.remove(email); // 인증이 완료되면 인증번호를 제거
+            logger.info("인증번호 검증 성공: email={}, code={}", email, code);
             return true;
+        } else {
+            String message = String.format("인증번호 검증 실패: email=%s, code=%s, storedCode=%s", email, code, storedCode);
+            logger.warn(message);
+            throw new InvalidVerificationCodeException(message);
         }
-        return false;
     }
 
     @Transactional
     public UserEntity signUp(SignupDto.SignupRequest request) {
+
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            String message = String.format("회원가입 중 이메일 중복 예외 발생: email=%s", request.getEmail());
+            logger.warn(message);
+            throw new EmailDuplicateException(message);
+        }
+
+        if (userRepository.existsByStudentNum(request.getStudentNum())) {
+            String message = String.format("회원가입 중 학번 중복 예외 발생: studentNum=%s", request.getStudentNum());
+            logger.warn(message);
+            throw new StudentNumberDuplicateException(message);
         }
 
         if (!verifyCode(request.getEmail(), request.getVerificationCode())) {
-            throw new IllegalArgumentException("회원가입 인증코드가 틀렸습니다.");
+            String message = String.format("회원가입 중 인증번호 검증 실패: email=%s, verificationCode=%s", request.getEmail(), request.getVerificationCode());
+            logger.warn(message);
+            throw new InvalidVerificationCodeException(message);
         }
 
         String rawPassword = request.getPassword();
