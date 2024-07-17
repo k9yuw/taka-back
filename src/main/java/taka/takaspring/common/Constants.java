@@ -4,7 +4,7 @@ public class Constants {
 
     public enum ExceptionClass {
 
-        AUTH("Auth"), RENT("Rent");
+        SIGNUP("SignUp"), AUTH("Auth"), RENT("Rent");
 
         private String exceptionClass;
 
@@ -18,7 +18,7 @@ public class Constants {
 
         @Override
         public String toString() {
-            return getExceptionClass() + "예외 발생.";
+            return getExceptionClass() + " 예외 발생 :";
         }
     }
 
