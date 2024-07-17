@@ -1,28 +1,19 @@
 package taka.takaspring.common.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import taka.takaspring.common.Constants;
 
-public class CustomException extends Exception{
+@Getter
+public class CustomException extends RuntimeException{
 
-    @Getter
-    private Constants.ExceptionClass exceptionClass;
-    @Getter
-    private HttpStatus httpStatus;
+    private final ErrorCode errorCode;
 
-    public CustomException(Constants.ExceptionClass exceptionClass, HttpStatus httpStatus, String message){
-        super(exceptionClass.toString() + message);
-        this.exceptionClass = exceptionClass;
-        this.httpStatus = httpStatus;
+    public CustomException(String message, ErrorCode errorCode) {
+        super(message);
+        this.errorCode = errorCode;
     }
 
-    public String getHttpStatusType(){
-        return httpStatus.getReasonPhrase();
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
     }
-
-    public int getHttpStatusCode(){
-        return httpStatus.value();
-    }
-
 }
