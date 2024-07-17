@@ -5,7 +5,7 @@ import taka.takaspring.common.exception.ErrorCode;
 
 public class EmailDuplicateException extends DuplicateException {
 
-    public EmailDuplicateException(String message, ErrorCode errorCode){
+    public EmailDuplicateException(String message){
         super(message, ErrorCode.EMAIL_DUPLICATE);
     }
 

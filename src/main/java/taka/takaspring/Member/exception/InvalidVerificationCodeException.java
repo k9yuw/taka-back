@@ -5,7 +5,7 @@ import taka.takaspring.common.exception.VerificationException;
 
 public class InvalidVerificationCodeException extends VerificationException {
 
-    public InvalidVerificationCodeException(String message, ErrorCode errorCode){
+    public InvalidVerificationCodeException(String message){
         super(message, ErrorCode.INVALID_VERIFICATION_CODE);
     }
 

@@ -11,6 +11,7 @@ import taka.takaspring.Member.db.UserRepository;
 import taka.takaspring.Member.exception.EmailDuplicateException;
 import taka.takaspring.Member.exception.InvalidVerificationCodeException;
 import taka.takaspring.Member.exception.StudentNumberDuplicateException;
+import taka.takaspring.Member.exception.VerificationCodeSendingFailureException;
 import taka.takaspring.Member.service.dto.SignupDto;
 
 import java.util.HashMap;
@@ -42,11 +43,12 @@ public class AuthService {
             String message = "taka 회원가입 인증번호입니다." + System.lineSeparator() + "인증번호: "+ verificationCode;
             emailService.sendSimpleMessage(email, subject, message);
 
-            logger.info("회원가입 인증번호 전송 완료 {}: {}", email, verificationCode);
+            logger.info("회원가입 인증번호 전송 완료: {} - {}", email, verificationCode);
 
         } catch (Exception e) {
-            logger.info("회원가입 인증번호 전송에 실패했습니다: " + e.getMessage());
-            e.printStackTrace();
+            String errorMessage = String.format("회원가입 인증번호 전송 오류 발생: email=%s, error=%s", email, e.getMessage());
+            logger.error(errorMessage, e);
+            throw new VerificationCodeSendingFailureException(errorMessage);
         }
     }
 
@@ -56,24 +58,34 @@ public class AuthService {
 //        logger.info("저장된 코드 {}: {}", email, storedCode);
 
         if (storedCode != null && storedCode.equals(code)) {
-//            verifyMap.remove(email); // 인증이 완료되면 인증번호를 제거
+            logger.info("인증번호 검증 성공: email={}, code={}", email, code);
             return true;
+        } else {
+            String message = String.format("인증번호 검증 실패: email=%s, code=%s, storedCode=%s", email, code, storedCode);
+            logger.warn(message);
+            throw new InvalidVerificationCodeException(message);
         }
-        return false;
     }
 
     @Transactional
     public UserEntity signUp(SignupDto.SignupRequest request) {
+
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new EmailDuplicateException();
+            String message = String.format("회원가입 중 이메일 중복 예외 발생: email=%s", request.getEmail());
+            logger.warn(message);
+            throw new EmailDuplicateException(message);
         }
 
-        if () {
-            throw new StudentNumberDuplicateException();
+        if (userRepository.existsByStudentNum(request.getStudentNum())) {
+            String message = String.format("회원가입 중 학번 중복 예외 발생: studentNum=%s", request.getStudentNum());
+            logger.warn(message);
+            throw new StudentNumberDuplicateException(message);
         }
 
         if (!verifyCode(request.getEmail(), request.getVerificationCode())) {
-            throw new InvalidVerificationCodeException();
+            String message = String.format("회원가입 중 인증번호 검증 실패: email=%s, verificationCode=%s", request.getEmail(), request.getVerificationCode());
+            logger.warn(message);
+            throw new InvalidVerificationCodeException(message);
         }
 
         String rawPassword = request.getPassword();
