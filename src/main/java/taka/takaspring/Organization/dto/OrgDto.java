@@ -12,7 +12,8 @@ public class OrgDto {
     public static class OrgRequest{
 
         private String orgName;
-        private UserEntity orgAdmin;
+        private String department;
+        private String orgDescription;
 
     }
 
@@ -22,11 +23,13 @@ public class OrgDto {
     public static class OrgResponse{
 
         private String orgName;
-        private UserEntity orgAdmin;
+        private String department;
+        private String orgDescription;
 
-        public OrgResponse(String orgName, UserEntity orgAdmin){
+        public OrgResponse(String orgName, String department, String orgDescription){
             this.orgName = orgName;
-            this.orgAdmin = orgAdmin;
+            this.department = department;
+            this.orgDescription = orgDescription;
         }
 
     }

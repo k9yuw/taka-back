@@ -41,5 +41,8 @@ public class OrgEntity extends BaseEntity {
         this.orgDescription = orgDescription;
     }
 
+    public OrgEntity updateFields(String department, String orgDescription){
+        return new OrgEntity(this.id, this.orgName, department, orgDescription);
+    }
 
 }

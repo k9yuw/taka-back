@@ -35,8 +35,6 @@ public class UserInfoService {
     }
 
 
-
-
     public UserInfoDto.UserInfoResponse updateUser(Long id, UserInfoDto.UserInfoRequest request) {
         Optional<UserEntity> optionalUser = userRepository.findById(id);
 
@@ -52,6 +50,7 @@ public class UserInfoService {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
         }
     }
+
 
     private void updateEntityWithRequest(UserEntity user, UserInfoDto.UserInfoRequest request) {
         String encPassword = null;
