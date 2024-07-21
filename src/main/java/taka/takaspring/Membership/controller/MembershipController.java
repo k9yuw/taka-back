@@ -45,18 +45,16 @@ public class MembershipController {
     }
 
     // 입부 승인
-    @PatchMapping("/membership/{membership_id}/approve")
-    public ResponseEntity<EnrollmentDto.EnrollmentResponse> approveEnrollment(@PathVariable Long membership_id,
-                                                                              @RequestBody EnrollmentDto.EnrollmentIntermediateRequest request) {
+    @PatchMapping("/membership/approve")
+    public ResponseEntity<EnrollmentDto.EnrollmentResponse> approveEnrollment(@RequestBody EnrollmentDto.EnrollmentIntermediateRequest request) {
         EnrollmentDto.EnrollmentResponse response = membershipService.approveEnrollment(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 
     // 입부 거절
-    @PatchMapping("/membership/{membership_id}/reject")
-    public ResponseEntity<EnrollmentDto.EnrollmentResponse> rejectEnrollment(@PathVariable Long membership_id,
-                                                                             @RequestBody EnrollmentDto.EnrollmentIntermediateRequest request) {
+    @PatchMapping("/membership/reject")
+    public ResponseEntity<EnrollmentDto.EnrollmentResponse> rejectEnrollment(@RequestBody EnrollmentDto.EnrollmentIntermediateRequest request) {
         EnrollmentDto.EnrollmentResponse response = membershipService.rejectEnrollment(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 }

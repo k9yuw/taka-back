@@ -68,8 +68,12 @@ public class MembershipService {
     public EnrollmentDto.EnrollmentResponse approveEnrollment(EnrollmentDto.EnrollmentIntermediateRequest request){
 
         Long membershipId = request.getMembership().getId();
+        String orgName = request.getMembership().getOrg().getOrgName();
+        String userName = request.getMembership().getUser().getName();
+        String message = String.format("단체명: %s, 회원명: %s", orgName, userName);
+
         MembershipEntity membership = membershipRepository.findById(membershipId)
-                .orElseThrow(() -> new EnrollmentNotFoundException("{}"));
+                .orElseThrow(() -> new EnrollmentNotFoundException(message));
 
         membership.setStatus(MembershipEntity.MembershipStatus.APPROVED);
         membershipRepository.save(membership);
@@ -86,8 +90,12 @@ public class MembershipService {
     public EnrollmentDto.EnrollmentResponse rejectEnrollment(EnrollmentDto.EnrollmentIntermediateRequest request){
 
         Long membershipId = request.getMembership().getId();
+        String orgName = request.getMembership().getOrg().getOrgName();
+        String userName = request.getMembership().getUser().getName();
+        String message = String.format("단체명: %s, 회원명: %s", orgName, userName);
+
         MembershipEntity membership = membershipRepository.findById(membershipId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 요청입니다."));
+                .orElseThrow(() -> new EnrollmentNotFoundException(message));
 
         membership.setStatus(MembershipEntity.MembershipStatus.REJECTED);
         membershipRepository.save(membership);
