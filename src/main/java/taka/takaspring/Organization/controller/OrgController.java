@@ -9,7 +9,7 @@ import taka.takaspring.Organization.dto.OrgDto;
 import taka.takaspring.Organization.service.OrgService;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/super_admin")
 @RequiredArgsConstructor
 public class OrgController {
 
@@ -38,4 +38,5 @@ public class OrgController {
         orgService.deleteOrg(org_id);
         return ResponseEntity.noContent().build();
     }
+
 }
