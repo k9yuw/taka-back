@@ -22,7 +22,7 @@ public class MembershipController {
     }
 
     // 단체의 회원 목록을 조회
-    @GetMapping("/users")
+    @GetMapping("/membership/users")
     public ResponseEntity<List<MembershipDto.UserByOrgResponse>> getUserListByOrgId(@PathVariable("organization_id") Long orgId) {
         List<MembershipDto.UserByOrgResponse> userList = membershipService.getUserListByOrgId(orgId);
         return ResponseEntity.ok().body(userList);
