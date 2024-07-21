@@ -8,11 +8,16 @@ import taka.takaspring.Member.db.UserRepository;
 import taka.takaspring.Membership.db.MembershipEntity;
 import taka.takaspring.Membership.db.MembershipRepository;
 import taka.takaspring.Membership.dto.EnrollmentDto;
+import taka.takaspring.Membership.dto.MembershipDto;
 import taka.takaspring.Membership.exception.OrgEntityNotFoundException;
 import taka.takaspring.Membership.exception.UserEntityNotFoundException;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.db.OrgRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+// 유저 입장에서 단체에 가입할 때 다룰 수 있는 기능들
 @Service
 public class EnrollmentService {
 
@@ -25,6 +30,25 @@ public class EnrollmentService {
         this.membershipRepository = membershipRepository;
         this.userRepository = userRepository;
         this.orgRepository = orgRepository;
+    }
+
+    @Transactional
+    public List<EnrollmentDto.EnrollableOrgResponse> getEnrollableOrgList(){
+        List<OrgEntity> orgList = orgRepository.findAll();
+        return orgList.stream()
+                .map(this::convertToEnrollableOrgResponse)
+                .collect(Collectors.toList());
+    }
+
+    private EnrollmentDto.EnrollableOrgResponse convertToEnrollableOrgResponse(OrgEntity orgEntity) {
+
+        EnrollmentDto.EnrollableOrgResponse response = EnrollmentDto.EnrollableOrgResponse.builder().
+                department(orgEntity.getDepartment()).
+                orgName(orgEntity.getOrgName()).
+                description(orgEntity.getOrgDescription()).
+                build();
+
+        return response;
     }
 
     @Transactional
