@@ -20,6 +20,7 @@ public class RentalItemManageController {
         this.rentalItemManageService = rentalItemManageService;
     }
 
+    // 대여 가능한 물품 목록 조회
     @GetMapping
     public ResponseEntity<List<RentalItemManageDto.RentalItemManageResponse>> getRentalItem(@PathVariable("organization_id") Long orgId){
         List<RentalItemManageDto.RentalItemManageResponse> itemList = rentalItemManageService.getRentalItemsByOrgId(orgId);
