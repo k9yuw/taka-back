@@ -29,26 +29,4 @@ public class EnrollmentController {
         return ResponseEntity.ok().build();
     }
 
-    // 입부 신청한 회원 목록 조회
-    @GetMapping("/admin/membership/{organization_id}/enrollment")
-    public ResponseEntity<List<EnrollmentDto.EnrollmentIntermediateRequest>> getPendingUsers(@PathVariable("organization_id") Long orgId) {
-        List<EnrollmentDto.EnrollmentIntermediateRequest> pendingUserList = enrollmentService.getPendingUsers(orgId);
-        return ResponseEntity.ok(pendingUserList);
-    }
-
-    // 입부 승인
-    @PatchMapping("/admin/membership/{membership_id}/approve")
-    public ResponseEntity<EnrollmentDto.EnrollmentResponse> approveEnrollment(@PathVariable Long membership_id,
-                                                                              @RequestBody EnrollmentDto.EnrollmentIntermediateRequest request) {
-        EnrollmentDto.EnrollmentResponse response = enrollmentService.approveEnrollment(request);
-        return ResponseEntity.ok(response);
-    }
-
-    // 입부 거절
-    @PatchMapping("/admin/membership/{membership_id}/reject")
-    public ResponseEntity<EnrollmentDto.EnrollmentResponse> rejectEnrollment(@PathVariable Long membership_id,
-                                                                             @RequestBody EnrollmentDto.EnrollmentIntermediateRequest request) {
-        EnrollmentDto.EnrollmentResponse response = enrollmentService.rejectEnrollment(request);
-        return ResponseEntity.ok(response);
-    }
 }

@@ -8,5 +8,5 @@ public class EmailDuplicateException extends DuplicateException {
     public EmailDuplicateException(String message){
         super(message, ErrorCode.EMAIL_DUPLICATE);
     }
-
 }
+

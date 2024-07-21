@@ -21,14 +21,16 @@ public class OrgService {
 
         OrgEntity orgEntity = OrgEntity.builder().
                 orgName(request.getOrgName()).
-                orgAdmin(request.getOrgAdmin()).
+                department(request.getDepartment()).
+                orgDescription(request.getOrgDescription()).
                 build();
 
         orgRepository.save(orgEntity);
 
         OrgDto.OrgResponse response = OrgDto.OrgResponse.builder().
                 orgName(orgEntity.getOrgName()).
-                orgAdmin(orgEntity.getOrgAdmin()).
+                department(request.getDepartment()).
+                orgDescription(request.getOrgDescription()).
                 build();
 
         return response;
@@ -43,7 +45,8 @@ public class OrgService {
 
         OrgDto.OrgResponse response = OrgDto.OrgResponse.builder().
                 orgName(orgEntity.getOrgName()).
-                orgAdmin(orgEntity.getOrgAdmin()).
+                department(orgEntity.getDepartment()).
+                orgDescription(orgEntity.getOrgDescription()).
                 build();
 
         return response;
@@ -56,7 +59,7 @@ public class OrgService {
         OrgEntity updateOrg = orgRepository.findById(orgId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 단체입니다."));
 
-        updateOrg.updateFields(request.getOrgName(), request.getOrgAdmin());
+        updateOrg.updateFields(request.getDepartment(), request.getOrgDescription());
 
         return orgRepository.save(updateOrg);
     }

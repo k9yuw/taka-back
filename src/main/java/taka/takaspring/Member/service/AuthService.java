@@ -32,6 +32,7 @@ public class AuthService {
     private Map<String, String> verifyMap = new HashMap<>(); // 이메일과 인증번호를 저장하는 map
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
+    @Transactional
     public void sendVerificationCode(String email) {
         try {
             // 6자리 인증번호 생성

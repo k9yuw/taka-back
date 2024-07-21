@@ -57,7 +57,7 @@ public class SecurityConfig {
 
         // 경로별 인가 작업
         http.authorizeHttpRequests(
-                (auth) -> auth.requestMatchers("/**").permitAll()
+                (auth) -> auth.requestMatchers("/error","/**").permitAll()
                         .anyRequest().authenticated());
 
         // LoginFilter 앞에 JWTFilter 추가
