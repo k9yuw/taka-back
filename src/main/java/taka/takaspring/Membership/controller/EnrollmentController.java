@@ -20,13 +20,11 @@ public class EnrollmentController {
     }
 
     // 입부 신청
-    @PostMapping("/api/membership/{orgId}/{userId}")
-    public ResponseEntity<Void> enrollUserToOrg(@RequestBody EnrollmentDto.EnrollmentRequest request,
-                                                @PathVariable Long orgId,
-                                                @PathVariable Long userId
-                                                ) {
-        enrollmentService.enrollUserToOrg(orgId, userId);
-        return ResponseEntity.ok().build();
+    @PostMapping("/{orgId}/{userId}")
+    public ResponseEntity<EnrollmentDto.EnrollmentResponse> enrollUserToOrg(@PathVariable Long orgId,
+                                                @PathVariable Long userId) {
+        EnrollmentDto.EnrollmentResponse response = enrollmentService.enrollUserToOrg(orgId, userId);
+        return ResponseEntity.ok().body(response);
     }
 
 }
