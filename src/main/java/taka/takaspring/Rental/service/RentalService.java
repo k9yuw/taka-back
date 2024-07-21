@@ -95,7 +95,6 @@ public class RentalService {
 
         ReturnDto.ReturnResponse response = ReturnDto.ReturnResponse.builder()
                 .userName(rentalRecord.getUser().getName())
-                .orgName(rentalRecord.getOrganization().getOrgName())
                 .itemName(rentalRecord.getItem().getItemName())
                 .rentalStartDate(rentalRecord.getRentalStartDate())
                 .returnDate(LocalDateTime.now())
@@ -112,7 +111,6 @@ public class RentalService {
 
         RentalDto.RentalResponse response = RentalDto.RentalResponse.builder().
                 userName(recordEntity.getUser().getName()).
-                orgName(recordEntity.getOrganization().getOrgName()).
                 itemName(recordEntity.getItem().getItemName()).
                 rentalStartDate(recordEntity.getRentalStartDate()).
                 returnDate(recordEntity.getReturnDate()).

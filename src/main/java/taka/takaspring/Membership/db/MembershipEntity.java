@@ -12,6 +12,7 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "membership_entity")
 @Audited
+@Builder(toBuilder = true)
 public class MembershipEntity extends BaseEntity {
 
     @Id
@@ -39,5 +40,14 @@ public class MembershipEntity extends BaseEntity {
         PENDING,
         APPROVED,
         REJECTED
+    }
+
+    @Builder
+    public MembershipEntity(Long id, UserEntity user, OrgEntity org, boolean isAdmin, MembershipStatus status){
+        this.id = id;
+        this.user = user;
+        this.org = org;
+        this.isAdmin = isAdmin;
+        this.status = status;
     }
 }

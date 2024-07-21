@@ -85,7 +85,7 @@ public class EnrollmentService {
 
     @Transactional
     public List<EnrollmentDto.EnrollmentIntermediateRequest> getPendingUsers(Long organizationId) {
-        List<MembershipEntity> membershipEntities = membershipRepository.findByOrgAndStatus(organizationId, MembershipEntity.MembershipStatus.PENDING);
+        List<MembershipEntity> membershipEntities = membershipRepository.findByOrgIdAndStatus(organizationId, MembershipEntity.MembershipStatus.PENDING);
         return membershipEntities.stream()
                 .map(this::convertToEnrollmentIntermediateRequest)
                 .collect(Collectors.toList());
