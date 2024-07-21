@@ -21,11 +21,11 @@ public class MembershipController {
         this.membershipService = userOrgService;
     }
 
-    // 특정 단체의 회원 목록을 조회
+    // 단체의 회원 목록을 조회
     @GetMapping("/users")
     public ResponseEntity<List<MembershipDto.UserByOrgResponse>> getUserListByOrgId(@PathVariable("organization_id") Long orgId) {
-        List<MembershipDto.UserByOrgResponse> userList = membershipService.getUsersByOrgId(orgId);
-        return ResponseEntity.ok(userList);
+        List<MembershipDto.UserByOrgResponse> userList = membershipService.getUserListByOrgId(orgId);
+        return ResponseEntity.ok().body(userList);
     }
 
     // 단체에 회원 삭제
@@ -39,9 +39,9 @@ public class MembershipController {
 
     // 입부 신청한 회원 목록 조회
     @GetMapping("/membership/enrolled")
-    public ResponseEntity<List<EnrollmentDto.EnrollmentIntermediateRequest>> getPendingUsers(@PathVariable("organization_id") Long orgId) {
-        List<EnrollmentDto.EnrollmentIntermediateRequest> pendingUserList = membershipService.getPendingUsers(orgId);
-        return ResponseEntity.ok(pendingUserList);
+    public ResponseEntity<List<EnrollmentDto.EnrollmentIntermediateRequest>> getPendingUserList(@PathVariable("organization_id") Long orgId) {
+        List<EnrollmentDto.EnrollmentIntermediateRequest> pendingUserList = membershipService.getPendingUserList(orgId);
+        return ResponseEntity.ok().body(pendingUserList);
     }
 
     // 입부 승인
