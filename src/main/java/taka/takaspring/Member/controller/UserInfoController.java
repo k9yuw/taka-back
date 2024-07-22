@@ -1,11 +1,9 @@
 package taka.takaspring.Member.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import taka.takaspring.Member.service.dto.UserInfoDto;
+import taka.takaspring.Member.dto.UserInfoDto;
 import taka.takaspring.Member.service.UserInfoService;
 
 @RestController

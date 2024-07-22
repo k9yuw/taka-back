@@ -1,12 +1,9 @@
-package taka.takaspring.Member.service.dto;
+package taka.takaspring.Member.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Member.db.enums.RoleType;
 
 public class UserInfoDto {
 

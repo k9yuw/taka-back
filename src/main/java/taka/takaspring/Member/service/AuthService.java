@@ -12,7 +12,7 @@ import taka.takaspring.Member.exception.EmailDuplicateException;
 import taka.takaspring.Member.exception.InvalidVerificationCodeException;
 import taka.takaspring.Member.exception.StudentNumberDuplicateException;
 import taka.takaspring.Member.exception.VerificationCodeSendingFailureException;
-import taka.takaspring.Member.service.dto.SignupDto;
+import taka.takaspring.Member.dto.SignupDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +69,7 @@ public class AuthService {
     }
 
     @Transactional
-    public UserEntity signUp(SignupDto.SignupRequest request) {
+    public SignupDto.SignUpResponse signUp(SignupDto.SignupRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
             String message = String.format("회원가입 중 이메일 중복 예외 발생: email=%s", request.getEmail());
@@ -102,6 +102,16 @@ public class AuthService {
                 .role(USER)
                 .build();
 
-        return userRepository.save(joinUser);
+        userRepository.save(joinUser);
+
+        SignupDto.SignUpResponse response = SignupDto.SignUpResponse.builder().
+                email(request.getEmail()).
+                name(request.getName()).
+                major(request.getMajor()).
+                studentNum(request.getStudentNum()).
+                phoneNumber(request.getPhoneNumber()).
+                build();
+
+        return response;
     }
 }

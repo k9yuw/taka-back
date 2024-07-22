@@ -8,11 +8,8 @@ import org.springframework.stereotype.Service;
 import taka.takaspring.Member.controller.AuthController;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
-import taka.takaspring.Member.db.enums.RoleType;
-import taka.takaspring.Member.service.dto.UserInfoDto;
+import taka.takaspring.Member.dto.UserInfoDto;
 import taka.takaspring.Membership.exception.UserEntityNotFoundException;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
