@@ -48,10 +48,6 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @Builder.Default
-//    private List<MembershipEntity> userOrgList = new ArrayList<>();
-
 
     @Builder
     public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role){
@@ -66,19 +62,17 @@ public class UserEntity extends BaseEntity {
         this.role = role;
     }
 
-    public void update(String password, String name, String phoneNumber, RoleType role) {
-        if (password != null && !password.isEmpty()) {
-            this.password = password;
-        }
-        if (name != null && !name.isEmpty()) {
-            this.name = name;
-        }
-        if (phoneNumber != null && !phoneNumber.isEmpty()) {
-            this.phoneNumber = phoneNumber;
-        }
-        if (role != null) {
-            this.role = role;
-        }
+    public void update(String password, String name, String major, String studentNum, String phoneNumber) {
+        this.password = (isValid(password)) ? password : this.password;
+        this.name = (isValid(name)) ? name : this.name;
+        this.major = (isValid(major)) ? major : this.major;
+        this.studentNum = (isValid(studentNum)) ? studentNum : this.studentNum;
+        this.phoneNumber = (isValid(phoneNumber)) ? phoneNumber : this.phoneNumber;
     }
+
+    private boolean isValid(String value) {
+        return value != null && !value.isEmpty();
+    }
+
 
 }

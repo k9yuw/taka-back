@@ -15,27 +15,17 @@ public class UserInfoController {
 
     private final UserInfoService userInfoService;
 
+    // 회원정보 조회
     @GetMapping("/info/{id}")
     public ResponseEntity<UserInfoDto.UserInfoResponse> getUserInfoById(@PathVariable Long id) {
-        try {
-            UserInfoDto.UserInfoResponse response = userInfoService.findUserById(id);
-            return ResponseEntity.ok(response);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        UserInfoDto.UserInfoResponse response = userInfoService.findUserById(id);
+        return ResponseEntity.ok().body(response);
     }
 
+    // 회원정보 수정
     @PatchMapping("/info/{id}")
     public ResponseEntity<UserInfoDto.UserInfoResponse> updateUserInfo(@PathVariable Long id, @RequestBody UserInfoDto.UserInfoRequest request) {
-        try {
-            UserInfoDto.UserInfoResponse response = userInfoService.updateUser(id, request);
-            return ResponseEntity.ok(response);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        UserInfoDto.UserInfoResponse response = userInfoService.updateUser(id, request);
+        return ResponseEntity.ok().body(response);
     }
 }

@@ -25,7 +25,6 @@ public class UserInfoDto {
         private String major;
         private String studentNum;
         private String phoneNumber;
-        private RoleType role;
     }
 
     @Getter
@@ -38,7 +37,6 @@ public class UserInfoDto {
         private String major;
         private String studentNum;
         private String phoneNumber;
-        private RoleType role;
 
         @Builder
         public UserInfoResponse(UserEntity user){
@@ -48,7 +46,6 @@ public class UserInfoDto {
             this.major = user.getMajor();
             this.studentNum = user.getStudentNum();
             this.phoneNumber = user.getPhoneNumber();
-            this.role = user.getRole();
         }
     }
 }
