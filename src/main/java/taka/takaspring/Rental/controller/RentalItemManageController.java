@@ -24,7 +24,7 @@ public class RentalItemManageController {
     @GetMapping
     public ResponseEntity<List<RentalItemManageDto.RentalItemManageResponse>> getRentalItem(@PathVariable("organization_id") Long orgId){
         List<RentalItemManageDto.RentalItemManageResponse> itemList = rentalItemManageService.getRentalItemsByOrgId(orgId);
-        return ResponseEntity.ok(itemList);
+        return ResponseEntity.ok().body(itemList);
     }
 
     @PostMapping
@@ -32,7 +32,7 @@ public class RentalItemManageController {
             @PathVariable("organization_id") Long orgId,
             @RequestBody RentalItemManageDto.RentalItemManageRequest request) {
         RentalItemManageDto.RentalItemManageResponse response = rentalItemManageService.addRentalItem(orgId, request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @PatchMapping("/{item_id}")
@@ -41,7 +41,7 @@ public class RentalItemManageController {
             @PathVariable("item_id") Long itemId,
             @RequestBody RentalItemManageDto.RentalItemManageRequest request) {
         RentalItemEntity rentalItem = rentalItemManageService.updateRentalItem(orgId, itemId, request);
-        return ResponseEntity.ok(rentalItem);
+        return ResponseEntity.ok().body(rentalItem);
     }
 
     @DeleteMapping("/{item_id}")

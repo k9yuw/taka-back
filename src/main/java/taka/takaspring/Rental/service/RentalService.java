@@ -84,7 +84,7 @@ public class RentalService {
             throw new ItemAlreadyRentException("대여 요청 한 단체: " + orgName + " / 대여 요청 한 물품: " + itemName);
         }
 
-        item.setAvailable(false);
+        item.setAvailability(false);
 
         // rentalPeriod는 일 수로 입력받아야 함
         String rentalPeriod = item.getRentalPeriod();
@@ -120,7 +120,7 @@ public class RentalService {
                 .orElseThrow(() -> new RentalRecordNotFoundException("대여자 : " + userName + " / 대여물품 : " + itemName));
 
         rentalRecord.markAsReturned();
-        rentalRecord.getItem().setAvailable(true);
+        rentalRecord.getItem().setAvailability(true);
         rentalRecord.setReturnDate();
 
         rentalRecordRepository.save(rentalRecord);
