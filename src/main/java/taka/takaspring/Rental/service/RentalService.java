@@ -1,8 +1,6 @@
 package taka.takaspring.Rental.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.eclipse.angus.mail.imap.protocol.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Member.db.UserEntity;
@@ -147,6 +145,31 @@ public class RentalService {
                 itemName(recordEntity.getItem().getItemName()).
                 rentalStartDate(recordEntity.getRentalStartDate()).
                 returnDate(recordEntity.getReturnDate()).
+                build();
+
+        return response;
+    }
+
+    @Transactional
+    public List<RentalDto.RentalResponse> getCurrentRentalsByUserId(Long userId){
+        List<RentalRecordEntity> currentRentalList = rentalRecordRepository.findByUserIdIdAndIsReturnedFalse(userId);
+        return currentRentalList.stream()
+                .map(this::convertToRentalResponse)
+                .collect(Collectors.toList());
+    }
+
+    private RentalDto.RentalResponse convertToRentalResponse(RentalRecordEntity rentalRecordEntity) {
+
+        Optional<RentalItemEntity> optionalRentalItemEntity = rentalItemRepository.findById(rentalRecordEntity.getItem().getId());
+        RentalItemEntity rentalItemEntity = optionalRentalItemEntity.get();
+        String orgName = rentalItemEntity.getOrganization().getOrgName();
+
+        RentalDto.RentalResponse response = RentalDto.RentalResponse.builder().
+                userName(rentalRecordEntity.getUser().getName()).
+                orgName(orgName).
+                itemName(rentalRecordEntity.getItem().getItemName()).
+                rentalStartDate(rentalRecordEntity.getRentalStartDate()).
+                rentalEndDate(rentalRecordEntity.getRentalEndDate()).
                 build();
 
         return response;

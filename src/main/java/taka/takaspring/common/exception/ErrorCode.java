@@ -22,7 +22,7 @@ public enum ErrorCode {
 
 
     // Rental 오류
-    ITEM_ALREADY_RENT(HttpStatus.CONFLICT,"RNT-001", "물품이 이미 대여 중입니다.");
+    ITEM_ALREADY_RENT(HttpStatus.CONFLICT,"RNT-001", "물품이 현재 대여 중입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

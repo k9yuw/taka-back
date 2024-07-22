@@ -52,4 +52,11 @@ public class RentalController {
         RentalDto.RentalResponse response = rentalService.getRentalRecords(rentalRecordId, userId);
         return ResponseEntity.ok().body(response);
     }
+
+    // 현재 대여중인 물품 조회
+    @GetMapping("/current/{user_id}")
+    public ResponseEntity<List<RentalDto.RentalResponse>> getCurrentRental(@PathVariable("user_id") Long userId) {
+        List<RentalDto.RentalResponse> currentRentalList = rentalService.getCurrentRentalsByUserId(userId);
+        return ResponseEntity.ok().body(currentRentalList);
+    }
 }
