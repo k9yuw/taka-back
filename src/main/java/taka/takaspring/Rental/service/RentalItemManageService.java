@@ -1,14 +1,15 @@
 package taka.takaspring.Rental.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import taka.takaspring.Membership.exception.OrgEntityNotFoundException;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.db.OrgRepository;
 import taka.takaspring.Rental.db.RentalItemEntity;
 import taka.takaspring.Rental.db.RentalItemRepository;
 import taka.takaspring.Rental.dto.RentalItemManageDto;
+import taka.takaspring.Rental.exception.RentalItemNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class RentalItemManageService {
         this.orgRepository = orgRepository;
     }
 
+    // 단체에 등록된 모든 대여 물품 조회
     @Transactional
     public List<RentalItemManageDto.RentalItemManageResponse> getRentalItemsByOrgId(Long orgId){
         List<RentalItemEntity> rentalItemEntities = rentalItemRepository.findByOrganizationId(orgId);
@@ -44,11 +46,12 @@ public class RentalItemManageService {
         return response;
     }
 
+    // 단체에 대여 물품 추가
     @Transactional
     public RentalItemManageDto.RentalItemManageResponse addRentalItem(Long orgId, RentalItemManageDto.RentalItemManageRequest request) {
 
         OrgEntity organization = orgRepository.findById(orgId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 단체입니다."));
+                .orElseThrow(() -> new OrgEntityNotFoundException("물품 삭제 요청한 단체 id : " + orgId));
 
         RentalItemEntity rentalItem = RentalItemEntity.builder()
                 .itemName(request.getItemName())
@@ -68,21 +71,26 @@ public class RentalItemManageService {
         return response;
     }
 
-
+    // 단체의 대여 물품 수정
     @Transactional
     public RentalItemEntity updateRentalItem(Long orgId, Long itemId, RentalItemManageDto.RentalItemManageRequest request) {
+
+        String itemName = request.getItemName();
+
         RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrganizationId(itemId, orgId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 물품이 존재하지 않습니다."));
+                .orElseThrow(() -> new RentalItemNotFoundException("수정 요청한 대여 물품 이름 : " + itemName));
 
         rentalItem.updateFields(request.getItemName(), request.isAvailable(), request.getRentalPeriod(), request.getItemImageUrl());
 
         return rentalItemRepository.save(rentalItem);
     }
 
+    // 단체의 대여 물품 삭제
     @Transactional
-    public void deleteRentalItem(Long organizationId, Long itemId) {
-        RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrganizationId(itemId, organizationId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 물품이 존재하지 않습니다."));
+    public void deleteRentalItem(Long orgId, Long itemId) {
+
+        RentalItemEntity rentalItem = rentalItemRepository.findByIdAndOrganizationId(itemId, orgId)
+                .orElseThrow(() -> new RentalItemNotFoundException("물품 삭제 요청한 단체 id : " + orgId + " / 삭제 요청한 대여 물품 id : " + itemId));
 
         rentalItemRepository.delete(rentalItem);
     }

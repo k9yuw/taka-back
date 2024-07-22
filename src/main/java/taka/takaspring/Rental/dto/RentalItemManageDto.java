@@ -17,11 +17,8 @@ public class RentalItemManageDto {
 
         @NotBlank(message = "물품 이름을 입력해주세요.")
         private String itemName;
-
         private boolean isAvailable;
-
         private String rentalPeriod;
-
         private String itemImageUrl;
 
     }

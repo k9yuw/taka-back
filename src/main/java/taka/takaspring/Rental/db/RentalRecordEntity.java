@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import taka.takaspring.Member.db.UserEntity;
+import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.common.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,10 @@ public class RentalRecordEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_id", nullable = false)
+    private OrgEntity org;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
@@ -51,4 +56,6 @@ public class RentalRecordEntity extends BaseEntity {
     public void markAsReturned() {
         this.isReturned = true;
     }
+
+    public void setReturnDate() { this.returnDate = LocalDateTime.now(); }
 }
