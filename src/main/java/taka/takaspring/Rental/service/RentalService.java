@@ -121,6 +121,7 @@ public class RentalService {
 
         rentalRecord.markAsReturned();
         rentalRecord.getItem().setAvailable(true);
+        rentalRecord.setReturnDate();
 
         rentalRecordRepository.save(rentalRecord);
 

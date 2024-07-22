@@ -51,4 +51,6 @@ public class RentalRecordEntity extends BaseEntity {
     public void markAsReturned() {
         this.isReturned = true;
     }
+
+    public void setReturnDate() { this.returnDate = LocalDateTime.now(); }
 }
