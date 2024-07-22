@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Rental.dto.RentalDto;
 import taka.takaspring.Rental.dto.RentalItemManageDto;
+import taka.takaspring.Rental.dto.RentalRecordDto;
 import taka.takaspring.Rental.dto.ReturnDto;
 import taka.takaspring.Rental.service.RentalService;
 
@@ -48,7 +49,7 @@ public class RentalController {
     // 대여 기록 조회
     @GetMapping("/{user_id}/{rental_record_id}")
     public ResponseEntity<RentalDto.RentalResponse> getRentalRecord(@PathVariable("user_id") Long userId,
-                                                                    @PathVariable("rental_record_id") Long rentalRecordId) {
+                                                           @PathVariable("rental_record_id") Long rentalRecordId) {
         RentalDto.RentalResponse response = rentalService.getRentalRecords(rentalRecordId, userId);
         return ResponseEntity.ok().body(response);
     }

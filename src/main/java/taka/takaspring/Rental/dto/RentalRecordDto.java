@@ -26,18 +26,10 @@ public class RentalRecordDto {
     @Builder
     public static class RentalRecordResponse {
 
-        private String userName;
-        private String orgName;
-        private String itemName;
-        private LocalDateTime rentalStartDate;
-        private LocalDateTime returnDate;
+        private RentalRecordEntity rentalRecord;
 
-        public RentalRecordResponse(String userName, String orgName, String itemName, LocalDateTime rentalStartDate, LocalDateTime returnDate) {
-            this.userName = userName;
-            this.orgName = orgName;
-            this.itemName = itemName;
-            this.rentalStartDate = rentalStartDate;
-            this.returnDate = returnDate;
+        public RentalRecordResponse(RentalRecordEntity rentalRecord) {
+            this.rentalRecord = rentalRecord;
         }
     }
 
