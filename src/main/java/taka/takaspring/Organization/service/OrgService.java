@@ -81,10 +81,10 @@ public class OrgService {
 
     // 슈퍼어드민이 특정 단체의 관리자 지정
     @Transactional
-    public void designateAdmin(Long superadminId, Long userId, Long orgId) {
+    public void designateAdmin(Long userId, Long orgId) {
 
         MembershipEntity membership = membershipRepository.findByOrgIdAndUserId(orgId, userId)
-                .orElseThrow(() -> new MembershipNotFoundException("존재하지 않는 멤버십 - user id: " + userId + " and org id: " + orgId));
+                .orElseThrow(() -> new MembershipNotFoundException("존재하지 않는 멤버십 - user id: " + userId + " org id: " + orgId));
 
         // Admin 권한 부여
         membership.designateAdmin(true);

@@ -2,6 +2,7 @@ package taka.takaspring.Membership.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Membership.dto.EnrollmentDto;
 import taka.takaspring.Membership.dto.MembershipDto;
@@ -10,6 +11,7 @@ import taka.takaspring.Membership.service.MembershipService;
 import java.util.List;
 
 // 특정 단체의 관리자가 다룰 수 있는 기능들
+@PreAuthorize("@accessControlService.isOrgAdmin(principal, #organization_id)")
 @RestController
 @RequestMapping("/api/admin/{organization_id}")
 public class MembershipController {

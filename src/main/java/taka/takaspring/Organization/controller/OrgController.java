@@ -45,8 +45,8 @@ public class OrgController {
 
     // 슈퍼어드민이 특정 단체의 admin 지정
     @PostMapping("/designate_admin")
-    public ResponseEntity<Void> designateAdmin(@RequestParam Long superadminId, @RequestParam Long userId, @RequestParam Long orgId) {
-        orgService.designateAdmin(superadminId, userId, orgId);
+    public ResponseEntity<Void> designateAdmin(@RequestParam Long userId, @RequestParam Long orgId) {
+        orgService.designateAdmin(userId, orgId);
         return ResponseEntity.ok().build();
     }
 }

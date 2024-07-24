@@ -15,4 +15,5 @@ public interface MembershipRepository extends JpaRepository<MembershipEntity, Lo
     List<MembershipEntity> findByOrgId(@Param("orgId") Long orgId);
     Optional<MembershipEntity> findByOrgIdAndUserId(@Param("orgId") Long orgId, @Param("userId") Long userId);
     List<MembershipEntity> findByOrgIdAndStatus(@Param("orgId") Long orgId, @Param("status") MembershipEntity.MembershipStatus status);
+    MembershipEntity findByUser_EmailAndOrg_Id(String email, Long orgId);
 }
