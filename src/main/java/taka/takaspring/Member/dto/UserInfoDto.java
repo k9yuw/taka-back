@@ -1,12 +1,9 @@
-package taka.takaspring.Member.service.dto;
+package taka.takaspring.Member.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import taka.takaspring.Member.db.UserEntity;
-import taka.takaspring.Member.db.enums.RoleType;
 
 public class UserInfoDto {
 
@@ -25,7 +22,6 @@ public class UserInfoDto {
         private String major;
         private String studentNum;
         private String phoneNumber;
-        private RoleType role;
     }
 
     @Getter
@@ -38,7 +34,6 @@ public class UserInfoDto {
         private String major;
         private String studentNum;
         private String phoneNumber;
-        private RoleType role;
 
         @Builder
         public UserInfoResponse(UserEntity user){
@@ -48,7 +43,6 @@ public class UserInfoDto {
             this.major = user.getMajor();
             this.studentNum = user.getStudentNum();
             this.phoneNumber = user.getPhoneNumber();
-            this.role = user.getRole();
         }
     }
 }

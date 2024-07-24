@@ -50,4 +50,8 @@ public class MembershipEntity extends BaseEntity {
         this.isAdmin = isAdmin;
         this.status = status;
     }
+
+    public void designateAdmin(boolean isAdmin){
+        this.isAdmin = isAdmin;
+    }
 }

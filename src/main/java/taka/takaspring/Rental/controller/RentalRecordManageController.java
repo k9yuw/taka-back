@@ -2,6 +2,7 @@ package taka.takaspring.Rental.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import taka.takaspring.Rental.service.RentalRecordManageService;
 
 import java.util.List;
 
+@PreAuthorize("@accessControlService.isOrgAdmin(principal, #organization_id)")
 @RestController
 @RequestMapping("/api/admin/{organization_id}/rental_records")
 public class RentalRecordManageController {

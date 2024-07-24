@@ -1,6 +1,5 @@
-package taka.takaspring.Member.service.dto;
+package taka.takaspring.Member.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -59,12 +58,12 @@ public class SignupDto {
         private String phoneNumber;
 
         @Builder
-        public SignUpResponse(UserEntity user){
-            this.email = user.getEmail();
-            this.name = user.getName();
-            this.major = user.getMajor();
-            this.studentNum = user.getStudentNum();
-            this.phoneNumber = user.getPhoneNumber();
+        public SignUpResponse(String email, String name, String major, String studentNum, String phoneNumber){
+            this.email = email;
+            this.name = name;
+            this.major = major;
+            this.studentNum = studentNum;
+            this.phoneNumber = phoneNumber;
         }
     }
 
