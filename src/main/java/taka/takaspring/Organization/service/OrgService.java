@@ -15,7 +15,6 @@ import taka.takaspring.Organization.dto.OrgDto;
 
 import java.util.Optional;
 
-@PreAuthorize("hasRole('SUPER_ADMIN')")
 @Service
 public class OrgService {
 

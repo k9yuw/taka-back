@@ -2,10 +2,12 @@ package taka.takaspring.Member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Member.dto.UserInfoDto;
 import taka.takaspring.Member.service.UserInfoService;
 
+@PreAuthorize("@accessControlService.isSelf(principal, #id)")
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor

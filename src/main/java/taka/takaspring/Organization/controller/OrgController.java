@@ -3,11 +3,13 @@ package taka.takaspring.Organization.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Organization.db.OrgEntity;
 import taka.takaspring.Organization.dto.OrgDto;
 import taka.takaspring.Organization.service.OrgService;
 
+@PreAuthorize("hasRole('SUPER_ADMIN')")
 @RestController
 @RequestMapping("/api/super_admin/{org_id}")
 @RequiredArgsConstructor
