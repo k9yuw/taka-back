@@ -1,0 +1,103 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: local,common,secret
+      blue: blue,common,secret
+      green: green,common,secret
+
+server:
+  env: blue
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+server:
+  port: 8080
+  serverAddress: localhost
+
+serverName: taka_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: blue
+
+server:
+  port: 8080
+  serverAddress: 43.200.32.0
+
+serverName: blue_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: green
+
+server:
+  port: 8081
+  serverAddress: 43.200.32.0
+
+serverName: green_server
+
+---
+
+spring:
+  application:
+    name: taka-spring
+
+  config:
+    activate:
+      on-profile: common
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/taka?serverTimezone=Asia/Seoul
+    username: root
+    password: Peniel102!
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: k9wdev
+    password: ffiletbgvzalrnrc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+  jwt:
+    secret: kasdjflkjafjwoeijrowjflasdkjflaskjdflkajfslflkajsd
+
+logging:
+  level:
+    org:
+      springframework: DEBUG
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    use-root-path: true
+    enabled: true
