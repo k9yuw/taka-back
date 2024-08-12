@@ -153,7 +153,7 @@ public class RentalService {
 
     @Transactional
     public List<RentalDto.RentalResponse> getCurrentRentalsByUserId(Long userId){
-        List<RentalRecordEntity> currentRentalList = rentalRecordRepository.findByUserIdIdAndIsReturnedFalse(userId);
+        List<RentalRecordEntity> currentRentalList = rentalRecordRepository.findByUserIdAndIsReturnedFalse(userId);
         return currentRentalList.stream()
                 .map(this::convertToRentalResponse)
                 .collect(Collectors.toList());

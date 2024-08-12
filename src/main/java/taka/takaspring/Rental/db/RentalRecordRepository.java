@@ -15,7 +15,7 @@ public interface RentalRecordRepository extends JpaRepository<RentalRecordEntity
     Optional<RentalRecordEntity> findByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
     // UserId와 isReturned가 false인 레코드를 찾는 메서드
-    List<RentalRecordEntity> findByUserIdIdAndIsReturnedFalse(@Param("userId") Long userId);
+    List<RentalRecordEntity> findByUserIdAndIsReturnedFalse(@Param("userId") Long userId);
 
     List<RentalRecordEntity> findByOrgId(@Param("orgId") Long orgId);
     List<RentalRecordEntity> findByOrgIdAndUserId(@Param("orgId") Long orgId, @Param("userId") Long userId);
