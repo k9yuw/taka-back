@@ -27,6 +27,10 @@ public class RentalItemEntity extends BaseEntity{
     @JoinColumn(name = "org_id")
     private OrgEntity organization;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private RentalCategoryEntity category;
+
     @Column(nullable = false)
     private boolean isAvailable;
 
@@ -36,17 +40,18 @@ public class RentalItemEntity extends BaseEntity{
     private String itemImageUrl;
 
     @Builder
-    public RentalItemEntity(Long id, String itemName, OrgEntity organization, boolean isAvailable, String rentalPeriod, String itemImageUrl){
+    public RentalItemEntity(Long id, String itemName, OrgEntity organization, RentalCategoryEntity category, boolean isAvailable, String rentalPeriod, String itemImageUrl){
         this.id = id;
         this.itemName = itemName;
         this.organization = organization;
+        this.category = category;
         this.isAvailable = isAvailable;
         this.rentalPeriod = rentalPeriod;
         this.itemImageUrl = itemImageUrl;
     }
 
-    public RentalItemEntity updateFields(String itemName, boolean isAvailable, String rentalPeriod, String itemImageUrl) {
-        return new RentalItemEntity(this.id, itemName, this.organization, isAvailable, rentalPeriod, itemImageUrl);
+    public RentalItemEntity updateFields(String itemName,  RentalCategoryEntity category, boolean isAvailable, String rentalPeriod, String itemImageUrl) {
+        return new RentalItemEntity(this.id, itemName, this.organization, category, isAvailable, rentalPeriod, itemImageUrl);
     }
 
     public void setAvailability(boolean available) {

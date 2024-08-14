@@ -38,13 +38,14 @@ public class RentalItemManageController {
     }
 
     @PatchMapping("/{item_id}")
-    public ResponseEntity<RentalItemEntity> updateRentalItem(
+    public ResponseEntity<RentalItemManageDto.RentalItemManageResponse> updateRentalItem(
             @PathVariable("organization_id") Long orgId,
             @PathVariable("item_id") Long itemId,
             @RequestBody RentalItemManageDto.RentalItemManageRequest request) {
-        RentalItemEntity rentalItem = rentalItemManageService.updateRentalItem(orgId, itemId, request);
-        return ResponseEntity.ok().body(rentalItem);
+        RentalItemManageDto.RentalItemManageResponse response = rentalItemManageService.updateRentalItem(orgId, itemId, request);
+        return ResponseEntity.ok().body(response);
     }
+
 
     @DeleteMapping("/{item_id}")
     public ResponseEntity<Void> deleteRentalItem(
