@@ -17,13 +17,21 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
-
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    private LocalDateTime ModifiedDate;
+    private LocalDateTime modifiedDate;
 
+    @Column
+    private LocalDateTime deletedDate;
 
+    public void delete() {
+        this.deletedDate = LocalDateTime.now();
+    }
+
+    public boolean isDeleted() {
+        return this.deletedDate != null;
+    }
 }
