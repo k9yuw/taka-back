@@ -1,6 +1,8 @@
 package taka.takaspring.Membership.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taka.takaspring.Membership.dto.EnrollmentDto;
@@ -20,11 +22,11 @@ public class EnrollmentController {
         this.enrollmentService = enrollmentService;
     }
 
-    // 전체 단체 조회
+    // 전체 단체 조회 - 페이지네이션 지원
     @GetMapping("/orgList")
-    public ResponseEntity<List<EnrollmentDto.EnrollableOrgResponse>> getEnrollableOrgList(){
-        List<EnrollmentDto.EnrollableOrgResponse> orgList = enrollmentService.getEnrollableOrgList();
-        return ResponseEntity.ok().body(orgList);
+    public ResponseEntity<Page<EnrollmentDto.EnrollableOrgResponse>> getEnrollableOrgList(Pageable pageable) {
+        Page<EnrollmentDto.EnrollableOrgResponse> orgPage = enrollmentService.getEnrollableOrgList(pageable);
+        return ResponseEntity.ok().body(orgPage);
     }
 
     // 입부 신청

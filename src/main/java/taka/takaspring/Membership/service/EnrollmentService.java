@@ -2,6 +2,8 @@ package taka.takaspring.Membership.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
@@ -33,22 +35,17 @@ public class EnrollmentService {
     }
 
     @Transactional
-    public List<EnrollmentDto.EnrollableOrgResponse> getEnrollableOrgList(){
-        List<OrgEntity> orgList = orgRepository.findAll();
-        return orgList.stream()
-                .map(this::convertToEnrollableOrgResponse)
-                .collect(Collectors.toList());
+    public Page<EnrollmentDto.EnrollableOrgResponse> getEnrollableOrgList(Pageable pageable) {
+        Page<OrgEntity> orgPage = orgRepository.findAll(pageable);
+        return orgPage.map(this::convertToEnrollableOrgResponse);
     }
 
     private EnrollmentDto.EnrollableOrgResponse convertToEnrollableOrgResponse(OrgEntity orgEntity) {
-
-        EnrollmentDto.EnrollableOrgResponse response = EnrollmentDto.EnrollableOrgResponse.builder().
-                department(orgEntity.getDepartment()).
-                orgName(orgEntity.getOrgName()).
-                description(orgEntity.getOrgDescription()).
-                build();
-
-        return response;
+        return EnrollmentDto.EnrollableOrgResponse.builder()
+                .department(orgEntity.getDepartment())
+                .orgName(orgEntity.getOrgName())
+                .description(orgEntity.getOrgDescription())
+                .build();
     }
 
     @Transactional
