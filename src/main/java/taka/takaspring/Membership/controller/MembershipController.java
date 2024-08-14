@@ -1,11 +1,13 @@
 package taka.takaspring.Membership.controller;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import taka.takaspring.Membership.db.MembershipEntity;
 import taka.takaspring.Membership.dto.EnrollmentDto;
 import taka.takaspring.Membership.dto.MembershipDto;
 import taka.takaspring.Membership.service.MembershipService;
@@ -31,6 +33,17 @@ public class MembershipController {
             Pageable pageable) {
 
         Page<MembershipDto.UserByOrgResponse> userList = membershipService.getUserListByOrgId(orgId, pageable);
+        return ResponseEntity.ok().body(userList);
+    }
+
+    // 단체의 회원 목록에서 이름으로 검색
+    @GetMapping("/membership/users/search")
+    public ResponseEntity<Page<MembershipDto.UserByOrgResponse>> searchUsersByOrgIdAndName(
+            @PathVariable("organization_id") Long orgId,
+            @RequestParam("name") String name,
+            Pageable pageable) {
+
+        Page<MembershipDto.UserByOrgResponse> userList = membershipService.searchUsersByOrgIdAndName(orgId, name, pageable);
         return ResponseEntity.ok().body(userList);
     }
 

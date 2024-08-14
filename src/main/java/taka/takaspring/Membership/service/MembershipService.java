@@ -46,6 +46,13 @@ public class MembershipService {
                 .build();
     }
 
+
+    @Transactional
+    public Page<MembershipDto.UserByOrgResponse> searchUsersByOrgIdAndName(Long organizationId, String name, Pageable pageable) {
+        Page<MembershipEntity> membershipEntities = membershipRepository.findByOrgIdAndUser_NameContaining(organizationId, name, pageable);
+        return membershipEntities.map(this::convertToUserByOrgResponse);
+    }
+
     @Transactional
     public void deleteUserFromOrg(Long orgId, Long userId) {
         Optional<MembershipEntity> userOrgEntityOptional = membershipRepository.findByOrgIdAndUserId(orgId, userId);

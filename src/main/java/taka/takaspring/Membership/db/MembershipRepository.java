@@ -16,6 +16,8 @@ public interface MembershipRepository extends JpaRepository<MembershipEntity, Lo
 
     Page<MembershipEntity> findByOrgId(@Param("orgId") Long orgId, Pageable pageable);
 
+    Page<MembershipEntity> findByOrgIdAndUser_NameContaining(Long orgId, String name, Pageable pageable);
+
     Optional<MembershipEntity> findByOrgIdAndUserId(@Param("orgId") Long orgId, @Param("userId") Long userId);
 
     Page<MembershipEntity> findByOrgIdAndStatus(@Param("orgId") Long orgId,
