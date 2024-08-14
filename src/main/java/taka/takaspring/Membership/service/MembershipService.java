@@ -2,6 +2,8 @@ package taka.takaspring.Membership.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Member.db.UserRepository;
 import taka.takaspring.Membership.db.MembershipEntity;
@@ -31,22 +33,17 @@ public class MembershipService {
     }
 
     @Transactional
-    public List<MembershipDto.UserByOrgResponse> getUserListByOrgId(Long organizationId) {
-        List<MembershipEntity> membershipEntities = membershipRepository.findByOrgId(organizationId);
-        return membershipEntities.stream()
-                .map(this::convertToUserByOrgResponse)
-                .collect(Collectors.toList());
+    public Page<MembershipDto.UserByOrgResponse> getUserListByOrgId(Long organizationId, Pageable pageable) {
+        Page<MembershipEntity> membershipEntities = membershipRepository.findByOrgId(organizationId, pageable);
+        return membershipEntities.map(this::convertToUserByOrgResponse);
     }
 
     private MembershipDto.UserByOrgResponse convertToUserByOrgResponse(MembershipEntity userOrgEntity) {
-
-        MembershipDto.UserByOrgResponse response = MembershipDto.UserByOrgResponse.builder().
-                name(userOrgEntity.getUser().getName()).
-                major(userOrgEntity.getUser().getMajor()).
-                studentNum(userOrgEntity.getUser().getStudentNum()).
-                build();
-
-        return response;
+        return MembershipDto.UserByOrgResponse.builder()
+                .name(userOrgEntity.getUser().getName())
+                .major(userOrgEntity.getUser().getMajor())
+                .studentNum(userOrgEntity.getUser().getStudentNum())
+                .build();
     }
 
     @Transactional
@@ -110,12 +107,11 @@ public class MembershipService {
     }
 
     @Transactional
-    public List<EnrollmentDto.EnrollmentIntermediateRequest> getPendingUserList(Long organizationId) {
-        List<MembershipEntity> membershipEntities = membershipRepository.findByOrgIdAndStatus(organizationId, MembershipEntity.MembershipStatus.PENDING);
-        return membershipEntities.stream()
-                .map(this::convertToEnrollmentIntermediateRequest)
-                .collect(Collectors.toList());
+    public Page<EnrollmentDto.EnrollmentIntermediateRequest> getPendingUserList(Long organizationId, Pageable pageable) {
+        Page<MembershipEntity> membershipEntities = membershipRepository.findByOrgIdAndStatus(organizationId, MembershipEntity.MembershipStatus.PENDING, pageable);
+        return membershipEntities.map(this::convertToEnrollmentIntermediateRequest);
     }
+
 
     @Transactional
     private EnrollmentDto.EnrollmentIntermediateRequest convertToEnrollmentIntermediateRequest(MembershipEntity membershipEntity) {
