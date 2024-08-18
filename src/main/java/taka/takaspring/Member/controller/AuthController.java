@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import taka.takaspring.Member.dto.ForgotPwdDto;
 import taka.takaspring.Member.jwt.JwtUtil;
 import taka.takaspring.Member.dto.SignupDto;
 import taka.takaspring.Member.service.AuthService;
@@ -40,5 +41,6 @@ public class AuthController {
         SignupDto.SignUpResponse response = authService.signUp(request);
         return ResponseEntity.ok().body(response);
     }
+
 }
 

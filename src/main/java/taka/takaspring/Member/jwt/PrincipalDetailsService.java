@@ -10,6 +10,8 @@ import taka.takaspring.Member.controller.AuthController;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
 
@@ -28,7 +30,8 @@ public class PrincipalDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
             // DB에서 조회
-            UserEntity user = userRepository.findByEmail(email);
+            Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
+            UserEntity user = optionalUser.get();
             logger.info("////////////리포지토리에서 찾은 Email : {}", user.getEmail());
 
             if (user == null) {
