@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            cd /path/to/your/app
+            cd /home/ubuntu/taka
             docker-compose pull
             docker-compose up -d
 
