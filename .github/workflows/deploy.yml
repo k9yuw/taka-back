@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - test-deploy # test
+      - test-deploy
 
 jobs:
   build-and-deploy:
@@ -38,6 +38,15 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:green -t ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:green
 
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: "./docker-compose.yml"
+          target: "/home/ubuntu/taka/"
+
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -48,13 +57,3 @@ jobs:
             cd /home/ubuntu/taka
             docker-compose pull
             docker-compose up -d
-
-      - name: Switch Nginx to Green
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: |
-            sed -i 's/proxy_pass http:\/\/blue;/proxy_pass http:\/\/green;/g' ./nginx.conf
-            docker-compose restart nginx
