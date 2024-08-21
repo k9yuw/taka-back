@@ -65,5 +65,8 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/taka
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/taka/nginx.conf
+            sudo chmod 644 /home/ubuntu/taka/nginx.conf
             docker-compose pull
             docker-compose up -d
+      
