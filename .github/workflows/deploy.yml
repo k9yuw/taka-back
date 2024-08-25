@@ -1,0 +1,80 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Set up environment variables
+        run: |
+          echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+          echo "SPRING_MAIL_USERNAME=${{ secrets.SPRING_MAIL_USERNAME }}" >> $GITHUB_ENV
+          echo "SPRING_MAIL_PASSWORD=${{ secrets.SPRING_MAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "SPRING_JWT_SECRET=${{ secrets.SPRING_JWT_SECRET }}" >> $GITHUB_ENV
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker images
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:blue -t ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:blue
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:green -t ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/taka-springboot:green
+
+      - name: Copy docker-compose.yml to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: "./docker-compose.yml"
+          target: "/home/ubuntu/taka/"
+
+      - name: Copy nginx.conf to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: "./nginx.conf"
+          target: "/home/ubuntu/taka/"
+
+      - name: SSH to EC2 and deploy
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/taka
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/taka/nginx.conf
+            sudo chmod 644 /home/ubuntu/taka/nginx.conf
+            docker-compose pull
+            docker-compose up -d
