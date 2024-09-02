@@ -1,9 +1,11 @@
 package taka.takaspring.Member.jwt;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +31,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         this.refreshRepository = refreshRepository;
         super.setUsernameParameter("email");
     }
-
-
+    
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
@@ -108,4 +109,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         return cookie;
     }
+
+
 }
