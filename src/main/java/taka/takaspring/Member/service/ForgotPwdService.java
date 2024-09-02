@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.UserRepository;
+import taka.takaspring.Member.util.PwdGenerator;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -17,12 +18,14 @@ public class ForgotPwdService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PwdGenerator pwdGenerator;
     private static final Logger logger = LoggerFactory.getLogger(ForgotPwdService.class);
 
-    public ForgotPwdService(UserRepository userRepository, EmailService emailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public ForgotPwdService(UserRepository userRepository, EmailService emailService, BCryptPasswordEncoder bCryptPasswordEncoder, PwdGenerator pwdGenerator) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.pwdGenerator = pwdGenerator;
     }
 
     public String sendTemporaryPassword(String email) {
@@ -31,7 +34,7 @@ public class ForgotPwdService {
         if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
 
-            String temporaryPassword = generateTemporaryPassword();
+            String temporaryPassword = pwdGenerator.generateTemporaryPassword();
             String encPassword = encodePassword(temporaryPassword);
 
             UserEntity updatedUser = UserEntity.builder()
@@ -58,11 +61,9 @@ public class ForgotPwdService {
         }
     }
 
-    private String generateTemporaryPassword() {
-        return UUID.randomUUID().toString().substring(0, 8);
-    }
-
     private String encodePassword(String password) {
         return bCryptPasswordEncoder.encode(password);
     }
 }
+
+

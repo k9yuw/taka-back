@@ -36,7 +36,7 @@ public class AuthService {
     public void sendVerificationCode(String email) {
         try {
             // 6자리 인증번호 생성
-            String verificationCode = UUID.randomUUID().toString().substring(0, 6);
+            String verificationCode = generateVerificationCode();
             verifyMap.put(email, verificationCode);
 
             // 이메일 전송
@@ -51,6 +51,10 @@ public class AuthService {
             logger.error(errorMessage, e);
             throw new VerificationCodeSendingFailureException(errorMessage);
         }
+    }
+
+    protected String generateVerificationCode() {
+        return UUID.randomUUID().toString().substring(0, 6);
     }
 
     // 프론트단에서 사용자가 확인차 입력한 verification code와 sendVerificationCode에서 생성한 verificationCode가 일치하는지 확인하는 로직

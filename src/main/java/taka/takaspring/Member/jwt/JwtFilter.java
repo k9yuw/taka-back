@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import taka.takaspring.Member.db.UserEntity;
 import taka.takaspring.Member.db.enums.RoleType;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,6 +25,11 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        // '/api/auth/' 또는 '/login'으로 시작하는 URI에 대해 필터링을 건너뛴다.
+        return StringUtils.startsWithAny(request.getRequestURI(), "/api/auth/", "/login");
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
