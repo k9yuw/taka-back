@@ -10,7 +10,7 @@ import taka.takaspring.Member.dto.ForgotPwdDto;
 import taka.takaspring.Member.jwt.JwtUtil;
 import taka.takaspring.Member.dto.SignupDto;
 import taka.takaspring.Member.service.AuthService;
-import taka.takaspring.common.Api;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,13 +24,14 @@ public class AuthController {
     }
 
     @PostMapping("/send-verification-code")
-    public ResponseEntity<Void> sendVerificationCode(@RequestParam String email) {
+    public ResponseEntity<Void> sendVerificationCode(@RequestParam("email") String email) {
         authService.sendVerificationCode(email);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/verify-code")
-    public ResponseEntity<Void> verifyCode(@RequestParam String email, @RequestParam String verificationCode) {
+    public ResponseEntity<Void> verifyCode(@RequestParam("email") String email, @RequestParam("verificationCode") String verificationCode) {
+        authService.verifyCode(email, verificationCode);
         return ResponseEntity.ok().build();
     }
 
