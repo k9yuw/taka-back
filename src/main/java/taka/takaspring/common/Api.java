@@ -16,10 +16,8 @@ public class Api<T> {
     private String status;
     private String message;
     private T data;
-    private Pagination pagination;
     private Integer statusCode;
 
-    // 응답 성공
     public static <T> Api<T> ok(T data, String message) {
         return Api.<T>builder()
                 .status(Api.SUCCESS_STATUS)
@@ -34,7 +32,6 @@ public class Api<T> {
                 .status(Api.SUCCESS_STATUS)
                 .message(message)
                 .data(data)
-                .pagination(pagination)
                 .statusCode(200)
                 .build();
     }

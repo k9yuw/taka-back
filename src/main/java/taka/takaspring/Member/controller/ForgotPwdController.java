@@ -23,7 +23,7 @@ public class ForgotPwdController {
         this.forgotPwdService = forgotPwdService;
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping("/forgot-password/get-temporary-password")
     public ResponseEntity<ForgotPwdDto.ForgotPwdResponse> forgotPassword(@RequestBody @Valid ForgotPwdDto.ForgotPwdRequest requestDto) {
         String email = forgotPwdService.sendTemporaryPassword(requestDto.getEmail());
         ForgotPwdDto.ForgotPwdResponse response = ForgotPwdDto.ForgotPwdResponse.builder()

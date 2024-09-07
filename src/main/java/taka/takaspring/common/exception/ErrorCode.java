@@ -11,6 +11,7 @@ public enum ErrorCode {
     STUDENT_NUMBER_DUPLICATE(HttpStatus.CONFLICT, "MEM-002", "이미 가입된 학번입니다."),
     INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "MEM-003", "회원가입 인증번호가 틀렸습니다."),
     VERIFICATION_CODE_SENDING_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "MEM-004", "인증코드 전송에 실패했습니다."),
+    INVALID_USERINFO(HttpStatus.BAD_REQUEST, "MEM-005", "잘못된 회원정보입니다."),
 
     // NotFoundException
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "NTF-001", "존재하지 않는 사용자입니다."),
