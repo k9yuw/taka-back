@@ -12,6 +12,7 @@ public class Api<T> {
     public static final String CREATED_SUCCESS_STATUS = "created success";
     public static final String FAIL_STATUS = "fail";
     public static final String ERROR_STATUS = "error";
+    public static final String UNAUTHORIZED_STATUS = "unauthorized";
 
     private String status;
     private String message;
@@ -58,6 +59,14 @@ public class Api<T> {
                 .status(Api.FAIL_STATUS)
                 .message(message)
                 .statusCode(400)
+                .build();
+    }
+
+    public static Api unauthorized(String message) {
+        return Api.builder()
+                .status(Api.UNAUTHORIZED_STATUS)
+                .message(message)
+                .statusCode(401)
                 .build();
     }
 }
