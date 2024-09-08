@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
         ErrorResponse response = new ErrorResponse(errorCode, e.getMessage());
         return new ResponseEntity<>(response, errorCode.getHttpStatus());
     }
+
 }
 
 

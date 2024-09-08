@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface OrgRepository extends JpaRepository<OrgEntity, Long> {
     Page<OrgEntity> findAll(Pageable pageable);
+
 }

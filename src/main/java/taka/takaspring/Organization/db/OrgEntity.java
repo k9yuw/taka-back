@@ -36,7 +36,6 @@ public class OrgEntity extends BaseEntity {
 
     private String orgDescription;
 
-
     @Builder
     public OrgEntity(Long orgId, String orgName, String department, String orgDescription){
         this.id = id;
