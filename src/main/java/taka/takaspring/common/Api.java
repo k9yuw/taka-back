@@ -12,14 +12,13 @@ public class Api<T> {
     public static final String CREATED_SUCCESS_STATUS = "created success";
     public static final String FAIL_STATUS = "fail";
     public static final String ERROR_STATUS = "error";
+    public static final String UNAUTHORIZED_STATUS = "unauthorized";
 
     private String status;
     private String message;
     private T data;
-    private Pagination pagination;
     private Integer statusCode;
 
-    // 응답 성공
     public static <T> Api<T> ok(T data, String message) {
         return Api.<T>builder()
                 .status(Api.SUCCESS_STATUS)
@@ -34,7 +33,6 @@ public class Api<T> {
                 .status(Api.SUCCESS_STATUS)
                 .message(message)
                 .data(data)
-                .pagination(pagination)
                 .statusCode(200)
                 .build();
     }
@@ -61,6 +59,14 @@ public class Api<T> {
                 .status(Api.FAIL_STATUS)
                 .message(message)
                 .statusCode(400)
+                .build();
+    }
+
+    public static Api unauthorized(String message) {
+        return Api.builder()
+                .status(Api.UNAUTHORIZED_STATUS)
+                .message(message)
+                .statusCode(401)
                 .build();
     }
 }

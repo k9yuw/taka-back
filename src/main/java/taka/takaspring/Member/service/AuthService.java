@@ -32,16 +32,23 @@ public class AuthService {
     private Map<String, String> verifyMap = new HashMap<>(); // 이메일과 인증번호를 저장하는 map
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
+    public boolean checkIfUserExists(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
     @Transactional
     public void sendVerificationCode(String email) {
+        if (checkIfUserExists(email)) {
+            throw new EmailDuplicateException("이미 회원가입이 되어 있는 이메일입니다.");
+        }
+
         try {
-            // 6자리 인증번호 생성
             String verificationCode = generateVerificationCode();
             verifyMap.put(email, verificationCode);
 
             // 이메일 전송
             String subject = "[taka] 회원가입 인증번호 발송";
-            String message = "taka 회원가입 인증번호입니다." + System.lineSeparator() + "인증번호: "+ verificationCode;
+            String message = "taka 회원가입 인증번호입니다." + System.lineSeparator() + "인증번호: " + verificationCode;
             emailService.sendSimpleMessage(email, subject, message);
 
             logger.info("회원가입 인증번호 전송 완료: {} - {}", email, verificationCode);
@@ -57,10 +64,8 @@ public class AuthService {
         return UUID.randomUUID().toString().substring(0, 6);
     }
 
-    // 프론트단에서 사용자가 확인차 입력한 verification code와 sendVerificationCode에서 생성한 verificationCode가 일치하는지 확인하는 로직
     public boolean verifyCode(String email, String code) {
         String storedCode = verifyMap.get(email);
-//        logger.info("저장된 코드 {}: {}", email, storedCode);
 
         if (storedCode != null && storedCode.equals(code)) {
             logger.info("인증번호 검증 성공: email={}, code={}", email, code);
@@ -74,27 +79,19 @@ public class AuthService {
 
     @Transactional
     public SignupDto.SignUpResponse signUp(SignupDto.SignupRequest request) {
-
         if (userRepository.existsByEmail(request.getEmail())) {
-            String message = String.format("회원가입 중 이메일 중복 예외 발생: email=%s", request.getEmail());
-            logger.warn(message);
-            throw new EmailDuplicateException(message);
+            throw new EmailDuplicateException("이미 회원가입이 되어 있는 이메일입니다.");
         }
 
         if (userRepository.existsByStudentNum(request.getStudentNum())) {
-            String message = String.format("회원가입 중 학번 중복 예외 발생: studentNum=%s", request.getStudentNum());
-            logger.warn(message);
-            throw new StudentNumberDuplicateException(message);
+            throw new StudentNumberDuplicateException("이미 해당 학번으로 회원가입이 되어 있습니다.");
         }
 
         if (!verifyCode(request.getEmail(), request.getVerificationCode())) {
-            String message = String.format("회원가입 중 인증번호 검증 실패: email=%s, verificationCode=%s", request.getEmail(), request.getVerificationCode());
-            logger.warn(message);
-            throw new InvalidVerificationCodeException(message);
+            throw new InvalidVerificationCodeException("인증번호가 일치하지 않습니다.");
         }
 
-        String rawPassword = request.getPassword();
-        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        String encPassword = bCryptPasswordEncoder.encode(request.getPassword());
 
         UserEntity joinUser = UserEntity.builder()
                 .email(request.getEmail())
@@ -108,16 +105,12 @@ public class AuthService {
 
         userRepository.save(joinUser);
 
-        SignupDto.SignUpResponse response = SignupDto.SignUpResponse.builder().
-                email(request.getEmail()).
-                name(request.getName()).
-                major(request.getMajor()).
-                studentNum(request.getStudentNum()).
-                phoneNumber(request.getPhoneNumber()).
-                build();
-
-        return response;
+        return SignupDto.SignUpResponse.builder()
+                .email(request.getEmail())
+                .name(request.getName())
+                .major(request.getMajor())
+                .studentNum(request.getStudentNum())
+                .phoneNumber(request.getPhoneNumber())
+                .build();
     }
-
-
 }

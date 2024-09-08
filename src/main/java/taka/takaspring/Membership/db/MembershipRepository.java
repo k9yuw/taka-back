@@ -25,4 +25,6 @@ public interface MembershipRepository extends JpaRepository<MembershipEntity, Lo
                                                 Pageable pageable);
 
     MembershipEntity findByUser_EmailAndOrg_Id(String email, Long orgId);
+
+    List<MembershipEntity> findByUser_Id(Long userId);
 }

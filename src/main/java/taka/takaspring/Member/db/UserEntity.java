@@ -48,7 +48,6 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-
     @Builder
     public UserEntity(Long id, String email, String password, String name, String major, String studentNum, String phoneNumber, String profileImageUrl, RoleType role){
         this.id = id;
