@@ -86,11 +86,9 @@ public class RentalService {
 
         item.setAvailability(false);
 
-        // rentalPeriod는 일 수로 입력받아야 함
-        String rentalPeriod = item.getRentalPeriod();
-        int days = Integer.parseInt(rentalPeriod);
+        int rentalPeriod = item.getRentalPeriod();
         LocalDateTime startDate = LocalDateTime.now();
-        LocalDateTime returnDate = startDate.plusDays(days);
+        LocalDateTime returnDate = startDate.plusDays(rentalPeriod);
 
         RentalRecordEntity rentalRecord = new RentalRecordEntity(user, item, startDate, returnDate);
         rentalRecordRepository.save(rentalRecord);

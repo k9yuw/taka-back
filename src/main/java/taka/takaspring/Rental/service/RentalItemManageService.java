@@ -92,7 +92,8 @@ public class RentalItemManageService {
                 category,
                 request.isAvailable(),
                 request.getRentalPeriod(),
-                request.getItemImageUrl()
+                request.getItemImageUrl(),
+                request.getDescription()
         );
 
         RentalItemEntity updatedItem = rentalItemRepository.save(rentalItem);

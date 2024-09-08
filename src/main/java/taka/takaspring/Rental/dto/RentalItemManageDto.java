@@ -24,8 +24,9 @@ public class RentalItemManageDto {
         private Long categoryId;
 
         private boolean isAvailable;
-        private String rentalPeriod;
-        private String itemImageUrl;
+        private int rentalPeriod;
+        private String[] itemImageUrl;
+        private String description;
     }
 
     @Getter
@@ -35,14 +36,18 @@ public class RentalItemManageDto {
 
         private String itemName;
         private String categoryName;
-        private String rentalPeriod;
+        private int rentalPeriod;
         private boolean isAvailable;
+        private String[] itemImageUrl;
+        private String description;
 
-        public RentalItemManageResponse(String itemName, String categoryName, String rentalPeriod, boolean isAvailable) {
+        public RentalItemManageResponse(String itemName, String categoryName, int rentalPeriod, boolean isAvailable, String[] itemImageUrl, String description) {
             this.itemName = itemName;
             this.categoryName = categoryName;
             this.rentalPeriod = rentalPeriod;
             this.isAvailable = isAvailable;
+            this.itemImageUrl = itemImageUrl;
+            this.description = description;
         }
     }
 }
