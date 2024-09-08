@@ -22,13 +22,6 @@ public class RentalController {
         this.rentalService = rentalService;
     }
 
-    // 대여 가능한 물품 목록 조회
-    @GetMapping("/{organization_id}")
-    public ResponseEntity<List<RentalItemManageDto.RentalItemManageResponse>> getRentalItem(@PathVariable("organization_id") Long orgId){
-        List<RentalItemManageDto.RentalItemManageResponse> itemList = rentalService.getRentalItemListByOrgId(orgId);
-        return ResponseEntity.ok().body(itemList);
-    }
-
     // 대여
     @PostMapping("/{organization_id}/{item_id}")
     public ResponseEntity<RentalDto.RentalResponse> rentItem(@RequestBody RentalDto.RentalRequest request,

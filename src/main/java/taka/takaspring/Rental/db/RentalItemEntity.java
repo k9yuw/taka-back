@@ -35,12 +35,14 @@ public class RentalItemEntity extends BaseEntity{
     private boolean isAvailable;
 
     @Column(nullable = false)
-    private String rentalPeriod;
+    private int rentalPeriod;
 
-    private String itemImageUrl;
+    private String[] itemImageUrl;
+
+    private String description;
 
     @Builder
-    public RentalItemEntity(Long id, String itemName, OrgEntity organization, RentalCategoryEntity category, boolean isAvailable, String rentalPeriod, String itemImageUrl){
+    public RentalItemEntity(Long id, String itemName, OrgEntity organization, RentalCategoryEntity category, boolean isAvailable, int rentalPeriod, String[] itemImageUrl, String description){
         this.id = id;
         this.itemName = itemName;
         this.organization = organization;
@@ -48,10 +50,11 @@ public class RentalItemEntity extends BaseEntity{
         this.isAvailable = isAvailable;
         this.rentalPeriod = rentalPeriod;
         this.itemImageUrl = itemImageUrl;
+        this.description = description;
     }
 
-    public RentalItemEntity updateFields(String itemName,  RentalCategoryEntity category, boolean isAvailable, String rentalPeriod, String itemImageUrl) {
-        return new RentalItemEntity(this.id, itemName, this.organization, category, isAvailable, rentalPeriod, itemImageUrl);
+    public RentalItemEntity updateFields(String itemName,  RentalCategoryEntity category, boolean isAvailable, int rentalPeriod, String[] itemImageUrl, String description) {
+        return new RentalItemEntity(this.id, itemName, this.organization, category, isAvailable, rentalPeriod, itemImageUrl, description);
     }
 
     public void setAvailability(boolean available) {
