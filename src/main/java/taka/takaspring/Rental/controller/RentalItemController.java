@@ -85,7 +85,13 @@ public class RentalItemController {
                                     + "}"))
             ),
             @ApiResponse(responseCode = "500", description = "id: [orgId]의 대여 물품 및 카테고리 조회 실패",
-                    content = @Content(mediaType = "application/json"))
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{"
+                                    + "\"status\": \"error\", "
+                                    + "\"message\": \"id:[orgId]의 대여 물품 및 카테고리 조회 실패\", "
+                                    + "\"data\": null, "
+                                    + "\"statusCode\": 500"
+                                    + "}")))
     })
     @GetMapping("/{organization_id}")
     public ResponseEntity<Api<Map<String, Object>>> getRentalItemsAndCategories(
