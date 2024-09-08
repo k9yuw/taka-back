@@ -4,39 +4,42 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 public class RentalItemDto {
-
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class RentalItemRequest {
-
-        private Long id;
-        private Long orgId;
-        private Long categoryId;
-        private String itemName;
-        private boolean isAvailable;
-        private int rentalPeriod;
-        private String[] photos;
-        private String[] descriptions;
-    }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder
     public static class RentalItemResponse {
-
-        private String itemName;
-        private String categoryName;
-        private String rentalPeriod;
+        private Long id;
+        private Long orgId;
+        private Long categoryId;
+        private String name;
         private boolean isAvailable;
+        private int rentalPeriod;
+        private String[] photos;
+        private String description;
 
-        public RentalItemResponse(String itemName, String categoryName, String rentalPeriod, boolean isAvailable) {
-            this.itemName = itemName;
-            this.categoryName = categoryName;
-            this.rentalPeriod = rentalPeriod;
+        public RentalItemResponse(Long id, Long orgId, Long categoryId, String name, boolean isAvailable, int rentalPeriod, String[] photos, String description) {
+            this.id = id;
+            this.orgId = orgId;
+            this.categoryId = categoryId;
+            this.name = name;
             this.isAvailable = isAvailable;
+            this.rentalPeriod = rentalPeriod;
+            this.photos = photos;
+            this.description = description;
         }
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class RentalItemsWithCategoriesResponse {
+        private List<CategoryDto> category;
+        private List<RentalItemResponse> item;
+    }
+
 }
